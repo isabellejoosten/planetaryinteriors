@@ -1,6 +1,7 @@
 import numpy as np
-def Pressure(p, dpdivdr, delta_r):
-    p += dpdivdr*delta_r
+def Pressure(p, rho, g, delta_r):
+    func = -rho*g
+    p = p - func*delta_r
     return p
 
 def Mass(M, r, delta_r, rho):
@@ -9,8 +10,11 @@ def Mass(M, r, delta_r, rho):
     return M
 
 def Gravity(G, M, r):
-    g = (G*M)/(r**2)
-    return G
+    if r == 0:
+        g = 0
+    else:
+        g = G*M/r**2
+    return g
 
 def Radius(r, delta_r):
     r += delta_r
