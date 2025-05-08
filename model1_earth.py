@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import functions
 
 simcount = 0
-rtotal = 1565.0*10**3                 # radius in [m]
-delta_r = 1000.0                    # step size in [m]
-M_observed = 479.7*10**20           # mass of Europa in [kg]
-inertia_observed = 0.346            # observed moment of inertia taken from the planetary database
+rtotal = 6378.0*10**3                 # radius in [m]
+delta_r = 500.0                    # step size in [m]
+M_observed = 59742.0*10**20           # mass of Europa in [kg]
+inertia_observed = 0.331            # observed moment of inertia taken from the planetary database
 G = 6.67430*10**(-11)               # gravitational constant
 
-core_boundary = 800.0*10**3           # initial core radius in [m]
-mantle_boundary = 1400.0*10**3        # initial distance from center to mantle-crust boundary in [m]
+core_boundary = 3450.0*10**3           # initial core radius in [m]
+mantle_boundary = 6320.0*10**3        # initial distance from center to mantle-crust boundary in [m]
 
 r = np.arange(0, rtotal + delta_r, delta_r)
 rho = np.zeros(len(r))
@@ -26,11 +26,11 @@ while abs((inertia-inertia_observed)/inertia_observed*100) > 1.0 or abs((M[-1]-M
     print("Starting simulation ", simcount)
     for i in range(len(r)):
         if r[i] <= core_boundary:
-            rho[i] = 5500.0
+            rho[i] = 11500.0
         elif core_boundary < r[i] and r[i] <= mantle_boundary:
-            rho[i] = 3300.0
+            rho[i] = 4500.0
         else:
-            rho[i] = 1000.0
+            rho[i] = 2600.0
 
     for i in range(0, len(r)-1):
         M[i+1] = propagate.Mass(M[i], r[i+1], delta_r, rho[i+1])
@@ -54,13 +54,25 @@ while abs((inertia-inertia_observed)/inertia_observed*100) > 1.0 or abs((M[-1]-M
     
     '''
     if M[-1] > M_observed:
-        core_boundary -= delta_r
+        if simcount % 2 == 0:
+            core_boundary -= delta_r
+        else:
+            mantle_boundary += delta_r
     elif M[-1] < M_observed:
-        core_boundary += delta_r
+        if simcount % 2 == 0:
+            core_boundary += delta_r
+        else:
+            mantle_boundary -= delta_r
     if inertia > inertia_observed:
-        mantle_boundary -= delta_r
+        if simcount % 2 == 1:
+            core_boundary -= delta_r
+        else:
+            mantle_boundary -= delta_r
     elif inertia < inertia_observed:
-        mantle_boundary += delta_r
+        if simcount % 2 == 1:
+            core_boundary += delta_r
+        else:
+            mantle_boundary += delta_r
     
 
 """
