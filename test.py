@@ -1,10 +1,14 @@
 import numpy as np
 import propagate
+import functions
 
-a = np.arange(0, 6+2, 2)
-print(a)
-b = np.ones(len(a))
-for i in np.flip(range(1, len(a))):
-    a[i-1] = a[i]+b[i-1]
-    print(i)
-print(a)
+r = np.arange(0, 10 + 2, 2)
+rho = np.zeros(len(r))
+for j in range(3):
+    for i in range(len(r)):
+        if r[i] <= 5:
+            rho[i] += 1
+        else:
+            rho[i] += 2
+print(r)
+print(rho) 
