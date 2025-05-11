@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import functions
 
 simcount = 0
-rtotal = 1565.0*10**3                 # radius in [m]
+rtotal = 1565.0*10**3               # radius in [m]
 delta_r = 1000.0                    # step size in [m]
 M_observed = 479.7*10**20           # mass of Europa in [kg]
 inertia_observed = 0.346            # observed moment of inertia taken from the planetary database
 G = 6.67430*10**(-11)               # gravitational constant
 
-core_boundary = 800.0*10**3           # initial core radius in [m]
-mantle_boundary = 1400.0*10**3        # initial distance from center to mantle-crust boundary in [m]
+core_boundary = 800*10**3           # initial core radius in [m]
+mantle_boundary = 1400.0*10**3      # initial distance from center to mantle-crust boundary in [m]
 
 r = np.arange(0, rtotal + delta_r, delta_r)
 rho = np.zeros(len(r))
@@ -61,22 +61,39 @@ while abs((inertia-inertia_observed)/inertia_observed*100) > 1.0 or abs((M[-1]-M
         mantle_boundary -= delta_r
     elif inertia < inertia_observed:
         mantle_boundary += delta_r
-    
+   
+fig, axs = plt.subplots(1, 4, sharey=True, layout='constrained')
 
-"""
-plt.plot(p,r)
+ax = axs[0]
+ax.plot(p/1000000000,r/1000)
+ax.set_xlabel('Pressure [GPa]')
+ax.set_ylabel('Radius [m]')
+
+ax = axs[1]
+ax.plot(M/10000000000000000000,r/1000)
+ax.set_xlabel('Mass [1000 kg]')
+
+ax = axs[2]
+ax.plot(rho, r/1000)
+ax.set_xlabel('Density [kg/m^3]')
+
+ax = axs[3]
+ax.plot(g,r/1000)
+ax.set_xlabel('Gravity [m/s^2]')
+
 plt.show()
-plt.plot(M,r)
-plt.show()
-plt.plot(rho, r)
-plt.show()
-"""
+plt.clf()
 
 print('\n---SIMULATION COMPLETE---')
 print("Total mass: ", M[-1], " kg")
 print("Mass deviation: ", (M[-1]-M_observed)/M_observed*100, "percent of observed mass")
 print("Center pressure: ", p[0]/1000000000, " GPa")
 print("Gravitational acceleration at surface: ", g[-1], " m/s^2")
+for i in range(len(r)):
+    if r[i] <= core_boundary and r[i+1] > core_boundary: 
+        print("Gravitational acceleration at core-mantle boundary: ", g[i], " m/s^2")
+    elif r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
+        print("Gravitational acceleration at mantle-shell boundary: ", g[i], " m/s^2")
 print("Core radius: ", core_boundary/1000, " km")
 print("Crust thickness: ", (rtotal-mantle_boundary)/1000, " km")
 print("Moment of inertia: ", inertia)

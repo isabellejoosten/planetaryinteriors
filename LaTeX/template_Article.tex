@@ -1,0 +1,134 @@
+\documentclass[twocolumn]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{graphicx}
+\usepackage{url}
+
+%opening
+\title{One-Dimensional Interior Models of Europa}
+\author{Isabelle Joosten\\Student number 4998480\\Assignment 1 for the course ``Physics of Planetary Interiors" (AE4893-24)\\Total time spent: 36 hours}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\section{Literature Study}
+Several existing models of Europa's interior were consulted for the purposes of this assignment. Jin and Ji\cite{jinInternalStructureModels2012} published an article in which they outline the creation of 3 models of Europa, the difference between the models being the assumed composition of the core: Fe, FeS, or Fe\textsubscript{0.8}(FeS)\textsubscript{0.2}. Aside from the core, Jin and Ji define two more layers in each of their models: an olivine mantle and an outer shell made of water. To generate interior profiles of Europa, they choose a fractional mass for each of the 3 layers as well as a centre pressure. The program they developed performs an integration from the centre to the surface in order to solve for the surface pressure, logically must be 0. Based on the calculated surface pressure, the program then adjusts the centre pressure before restarting the integration, repeating this sequence until the calculated surface pressure is 0.\\
+Another existing model found in literature is one published by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006}. The aim of their research was to find the seismic velocities associated with different possible interior of Europa, so their model determines the density profile based on temperature and composition. Like Jin and Ji, Cammarano et al. assume an FeS core and a water shell, but unlike Jin and Ji, they consider two different mantle compositions: pyrolitic and chondritic.\\
+Kuskov and Kronrod\cite{kuskovInternalStructureEuropa2005} base their model on the observed mass, bulk density, and moment of inertia of Europa. Unlike the two models perviously discussed in this section, in this model the mantle is divided into 3 layers, leading to 5 layers in total.\\
+Finally, Howell\cite{howellLikelyThicknessEuropas2021} focuses on Europa's icy outer shell, and attempts to determine the thickness of this shell based on its steady-state heat flux. This model differs from the others in that it does not provide a profile of Europa's full interior, but rather provides a detailed profile of the ice crust based on assumed values for the rest of the interior.\\
+Because all models found use a different approach and were created with a different goal in mind, a direct comparison is difficult to make. Nevertheless, there are a few notable trends among the articles. There seems to be a general consensus among researchers that Europa consists of an iron-rich core, a silicate or chondritic mantle, and an ice/water outer shell\footnote{It should be noted, though, that this is by no means definitively proven. See for example Trinh et al.\cite{trinhSlowEvolutionEuropas2023}, in which the existence of Europa's metallic core is questioned based on reanalysis of Galileo data.}. Numerically, there is some variation between the outputs of each model, part of which can be explained by the fact that the models use different theoretical values as inputs, most of which are, themselves, obtained through theoretical modeling\footnote{A frequently cited paper in literature about Europa's interior is Anderson et al. (1998)\cite{andersonEuropasDifferentiatedInternal1998}, which is where a lot of input values are taken from. Unfortunately, this article appears to be behind a paywall.}. A summary of relevant values is given in Table \ref{tab:modelcomparison}. As each of these models has undergone some form of verification and validation before being published, these values, or averages thereof, will be used as reference values for the remainder of this report.
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[h]
+	\caption{An overview of the models analysed for this assignment.}
+	\label{tab:modelcomparison}
+	\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{l|llll}
+			& \textbf{Jin and Ji}         & \textbf{\begin{tabular}[c]{@{}l@{}}Cammarano\\ et al.\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Kuskov\\ and Kronrod\end{tabular}} & \textbf{Howell}              \\ \hline
+			\textbf{Total radius {[}km{]}}     & 1563                        & Not provided                                                        & 1565                                                                  & 1561                         \\
+			\textbf{Core radius {[}km{]}}      & 777                         & $\sim$600                                                           & 880                                                                   & 630                          \\
+			\textbf{Shell thickness {[}km{]}}  & 167                         & $\sim$100                                                           & 105-160                                                               & 127                          \\
+			\textbf{Moment of inertia {[}-{]}} & 0.330                       & 0.346                                                               & 0.346                                                                 & 0.359                        \\
+			\textbf{Total mass {[}kg{]}}       & 4.80*10\textasciicircum{}22 & 4.8*10\textasciicircum{}22                                          & 47.99*10\textasciicircum{}21                                          & 4.80(10)\textasciicircum{}22 \\
+			\textbf{Centre pressure {[}GPa{]}} & $\sim$5.5                   & Not provided                                                        & $\sim$4.8                                                             & Not provided                
+		\end{tabular}%
+	}
+\end{table}
+
+\section{General Modeling Approach}
+For this report, three one-dimensional models of Europa's interior were created. Models I and II are written from scratch in Python, with model II being an extension of the simpler model I. Model III is written using the BurnMan Python module, and the setup of this model will be described in Section \ref{sec:model3}.\\
+An overview of the input and output parameters used in model I is given in Table \ref{tab:inputoutput1}. The approximate density of the core, mantle, and outer shell are taken from Jin and Ji\cite{jinInternalStructureModels2012}. The simulation starts by upward integrating the mass for each step in radius and calculating the gravitational acceleration at each of those radii, according to Equations \ref{eq:mass} and \ref{eq:gravity}, respectively. Then, the simulation integrates downward according to Equation \ref{eq:pressure} to find the pressure at each radius step.
+\begin{equation}
+	\label{eq:mass}
+	\frac{dM}{dr} = 4\pi\rho r^2
+\end{equation}
+\begin{equation}
+	\label{eq:gravity}
+	g(r) = \frac{GM(r)}{r^2}
+\end{equation}
+\begin{equation}
+	\label{eq:pressure}
+	\frac{dp}{dr} = -\rho g(r)
+\end{equation}
+Once this is done, the dimensionless moment of inertia is calculated, using Equation \ref{eq:inertia}.
+\begin{equation}
+	\label{eq:inertia}
+	\bar{I} = \frac{8\pi}{3MR^2}\int_{0}^{R}\rho(r)r^4dr
+\end{equation}
+This is then compared to the observed dimensionless moment of inertia. If the calculated moment of inertia is higher than the observed value, the shell thickness is increased, and if it is lower, the shell thickness is decreased. The total calculated mass is also compared with the observed mass, and if the calculated mass is higher than the observed value, the core radius is decreased, and vice versa. The simulation is run again with the adjusted values, and it continues in this loop until both the calculated mass and moment of inertia are within 1\% of the observed value.\\
+Model II works in the same way, except the density values are now dependent on temperature and pressure.
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[h]
+	\caption{An overview of the input and output parameters for model I.}
+	\label{tab:inputoutput1}
+	\centering
+	%\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{ll}
+			\textbf{Inputs} & \textbf{Outputs}  \\ \hline
+			Observed radius & Mass              \\
+			Observed mass   & Gravity           \\
+			Core density    & Pressure          \\
+			Mantle density  & Moment of inertia \\
+			Shell density   & Core radius       \\
+			Step size       & Shell thickness  \\
+			Initial core radius &   \\
+			Initial shell thickness
+		\end{tabular}%
+	%}
+\end{table}
+
+\section{Results, Verification and Validation of Model I}
+To construct model I, the following assumptions were made:
+\begin{itemize}
+	\item Europa consists of three layers: an FeS core, a pyrolitic mantle, and an outer shell of water and ice;
+	\item Because it is expected to be relatively thin compared to the rest of the water shell, the ice crust is neglected and the outer shell is assumed to be 100\% liquid water\cite{jinInternalStructureModels2012};
+	\item The density of each layer is homogeneous and is 5500, 3300, and 1000 kg/m\textsuperscript{3} for the core, mantle, and outer shell, respectively. These values were estimated from the graphs published by Jin and Ji\cite{jinInternalStructureModels2012};
+	\item Europa's observed radius is 1565 km;
+	\item Europa's observed mass is 479.7(10)\textsuperscript{20} kg;
+	\item Europa's observed dimensionless moment of inertia is 0.346.
+\end{itemize}
+The initial core radius and outer shell thickness are chosen somewhat arbitrarily: based on the values found in Table \ref{tab:modelcomparison}, the core-mantle boundary is initially set to 800 km from the centre, and the mantle-shell boundary is set to 1400 km from the centre, which gives an outer shell thickness of 165 km. Running the program with these inputs, using a step size of 1 km, results in a predicted mass of 4.84(10)\textsuperscript{22} kg, which deviates 0.96\% from the observed value, and a moment of inertia of 0.346, which deviates 0.031\% from the observed value. Furthermore, the model predicts the pressure at the centre of Europa to be 5.1 GPa, which roughly agrees with the values in Table \ref{tab:modelcomparison}. The gravitational acceleration at the surface is found to be 1.32 m/s\textsuperscript{2}, which matches the value 1.31 m/s\textsuperscript{2} given by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006}. The core radius and shell thickness found are 683 and 116 km, respectively, most closely resembling the models by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006} and Howell\cite{howellLikelyThicknessEuropas2021}. It takes the program 137 iterations to converge to these values. An overview of the complete one-dimensional profile generated using this model is shown in Figure \ref{fig:profile1}.\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth]{profile1.png}
+	\caption{The pressure, mass, density, and gravitational acceleration of model I, plotted as a function of the radius.}
+	\label{fig:profile1}
+\end{figure}
+To verify the model, a few tests were done. The sensitivity of the code was checked by decreasing the initial core radius by 1 km and running the program again. Another check was done by decreasing the initial shell thickness, and two more by increasing each of the values by 1 km. All output values remained the same in each of these four cases. Even when the initial core radius is set to 0, the program eventually converges to roughly the same values as with more realistic initial conditions. Together with the fact that the functions written for the simulation were verified by comparing their outputs with analytical solutions of the equations they were made to solve, this model can be considered verified.\\
+The model was validated by changing all the inputs to Earth's characteristics, as these are known with more certainty than Europa's characteristics\footnote{The thickness and density of each layer was taken from \url{http://hyperphysics.phy-astr.gsu.edu/hbase/Geophys/earthstruct.html}.}. The model accurately predicted the pressure at Earth's centre as well as the gravitational acceleration at Earth's surface. It also quite accurately predicted the size of Earth's core, but, interestingly enough, it seems to favour an unrealistically thick crust regardless of the initial conditions set. This could be a consequence of the somewhat oversimplified criteria for adjusting the core radius and crust thickness, or of the assumption that the density of each layer is homogeneous. Such an assumption should more significantly affect a model of Earth than of Europa simply because Earth is so much more massive. it can be concluded that although it is a simplified model, it is accurate and realistic enough for the purpose of this report.
+\section{Thermal Effects}
+To construct model II, model I is extended to include the effects of temperature on the density of each of Europa's layers. To this end, three thermal profiles are constructed, based on three centre temperature values found in literature: a minimum temperature, a maximum temperature, and a mean temperature.\\
+Information about the core temperature of Europa is not easy to find. When it is mentioned in literature, it appears to be mostly speculative values, which makes sense, given the limited information available about Europa in general. Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006}, for example, argue that for the core to be solid, its temperature must be below 1900 K for a pure iron core, and below 1400 for an FeS core. Travis et al.\cite{travisWholemoonThermalHistory2012} propose a core temperature of 1750 K based on their simulations of the thermal history of Europa. Kuskov and Kronrod\cite{kronrodChemicalDifferentiationGalilean2006} found a temperature of 1293 degrees Celsius, or 1566 K, at the core-mantle boundary using one of their simulations. Finally, Prentice\cite{prenticeORIGINBULKCHEMICAL1999} modeled Europa with a core temperature of 1073 K.\\
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[h]
+	\centering
+	\caption{The centre temperature values chosen as basis of the three thermal profiles for Europa.}
+	\label{tab:coretemps}
+		\begin{tabular}{l|l}
+			\textbf{Min}  & 1073 K \\
+			\textbf{Mean} & 1447 K \\
+			\textbf{Max}  & 1750 K
+		\end{tabular}%
+\end{table}
+Based on these values, three core temperatures were selected, as shown in Table \ref{tab:coretemps}. To construct temperature profiles, it is first necessary to determine for each layer if it is mainly convective or mainly conductive. This is done by calculating the Rayleigh number for each layer, given by the following equation:
+\begin{equation}
+	Ra = \frac{\rho\alpha g\Delta TD^3}{\kappa\eta}
+\end{equation}
+in which $\alpha$ represents the thermal expansivity of the layer, D represents the thickness of the layer, $\kappa$ the thermal diffusivity, and $\eta$ the viscosity.
+\section{Results, Verification and Validation of Model II}
+\section{Results, Verification, and Validation of Model III}
+\label{sec:model3}
+\section{Discussion}
+\section{Conclusion}
+
+\bibliographystyle{ieeetr}
+\bibliography{ExportedItems.bib}
+
+\end{document}

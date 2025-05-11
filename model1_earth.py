@@ -54,25 +54,13 @@ while abs((inertia-inertia_observed)/inertia_observed*100) > 1.0 or abs((M[-1]-M
     
     '''
     if M[-1] > M_observed:
-        if simcount % 2 == 0:
-            core_boundary -= delta_r
-        else:
-            mantle_boundary += delta_r
+        core_boundary -= delta_r
     elif M[-1] < M_observed:
-        if simcount % 2 == 0:
-            core_boundary += delta_r
-        else:
-            mantle_boundary -= delta_r
+        core_boundary += delta_r
     if inertia > inertia_observed:
-        if simcount % 2 == 1:
-            core_boundary -= delta_r
-        else:
-            mantle_boundary -= delta_r
+        mantle_boundary -= delta_r
     elif inertia < inertia_observed:
-        if simcount % 2 == 1:
-            core_boundary += delta_r
-        else:
-            mantle_boundary += delta_r
+        mantle_boundary += delta_r
     
 
 """
