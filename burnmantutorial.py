@@ -1,23 +1,26 @@
-#!/usr/bin/python3.12
 import numpy as np
 import matplotlib.pyplot as plt
 import burnman
 from burnman import Mineral, PerplexMaterial, Composite, Layer, Planet
 from burnman import minerals
 
+
 depths = np.linspace(2890e3, 670e3, 20)
-rock = Composite([minerals.SLB_2011.mg_bridgmanite(), minerals.SLB_2011.periclase()], [0.8, 0.2]) # Materials and molar composition set to 80:20
+rock = Composite([minerals.SLB_2011.mg_bridgmanite(),
+                  minerals.SLB_2011.periclase()],
+                 [0.8, 0.2])
 
 lower_mantle = Layer(name='Lower Mantle', radii=6371.e3-depths)
 lower_mantle.set_material(rock)
-lower_mantle.set_temperature_mode(temperature_mode='adiabetic', temperature_top=1900.)
-lower_mantle.set_pressure_mode(pressure_mode='self-consistent', pressure_top=23.8e9, gravity_bottom=10.7)
+lower_mantle.set_temperature_mode(temperature_mode='adiabatic',
+                                  temperature_top=1900.)
+lower_mantle.set_pressure_mode(pressure_mode='self-consistent',
+                               pressure_top=23.8e9,
+                               gravity_bottom=10.7)
 
-print('hellow :3')
+# The "make" method does the calculations to make the pressure and gravity self-consistent.
+lower_mantle.make()
 
-lower_mantle.make() #necessary to do the calculations to make pressure and gravity self-consistent
-
-# create plots:
 fig = plt.figure(figsize=(8, 8))
 ax = [fig.add_subplot(2, 2, i) for i in range(1, 5)]
 ax[0].plot(lower_mantle.pressure/1.e9, 6371.-lower_mantle.radii/1.e3)
@@ -35,4 +38,3 @@ ax[2].set_xlabel('Gravity (m/s$^2$)')
 ax[3].set_xlabel('Bullen parameter')
 
 fig.set_layout_engine('tight')
-plt.show()

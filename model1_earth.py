@@ -1,4 +1,3 @@
-import propagate
 import numpy as np
 import matplotlib.pyplot as plt
 import functions
@@ -33,13 +32,13 @@ while abs((inertia-inertia_observed)/inertia_observed*100) > 1.0 or abs((M[-1]-M
             rho[i] = 2600.0
 
     for i in range(0, len(r)-1):
-        M[i+1] = propagate.Mass(M[i], r[i+1], delta_r, rho[i+1])
+        M[i+1] = functions.Mass(M[i], r[i+1], delta_r, rho[i+1])
 
     for i in range(len(r)):
-        g[i] = propagate.Gravity(G, M[i], r[i])
+        g[i] = functions.Gravity(G, M[i], r[i])
 
     for i in np.flip(range(1, len(r))):
-        p[i-1] = propagate.Pressure(p[i], rho[i], g[i], delta_r)
+        p[i-1] = functions.Pressure(p[i], rho[i], g[i], delta_r)
     
     
     inertia = functions.inertia(r, rho, delta_r, M)

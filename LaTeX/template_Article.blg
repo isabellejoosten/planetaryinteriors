@@ -5,44 +5,47 @@ Reallocating 'name_of_file' (item size: 1) to 7 items.
 The style file: ieeetr.bst
 Reallocating 'name_of_file' (item size: 1) to 18 items.
 Database file #1: ExportedItems.bib
-You've used 9 entries,
+Warning--empty journal in gronvoldThermodynamicsIronSulfides
+Warning--empty year in gronvoldThermodynamicsIronSulfides
+You've used 15 entries,
             1876 wiz_defined-function locations,
-            549 strings with 5668 characters,
-and the built_in function-call counts, 3048 in all, are:
-= -- 337
-> -- 91
+            593 strings with 7195 characters,
+and the built_in function-call counts, 4756 in all, are:
+= -- 521
+> -- 141
 < -- 0
-+ -- 34
-- -- 25
-* -- 205
-:= -- 398
-add.period$ -- 9
-call.type$ -- 9
-change.case$ -- 9
++ -- 53
+- -- 38
+* -- 325
+:= -- 626
+add.period$ -- 14
+call.type$ -- 15
+change.case$ -- 15
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 169
-empty$ -- 245
-format.name$ -- 25
-if$ -- 759
+cite$ -- 17
+duplicate$ -- 260
+empty$ -- 394
+format.name$ -- 38
+if$ -- 1178
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 9
-newline$ -- 30
-num.names$ -- 9
-pop$ -- 12
+int.to.str$ -- 15
+missing$ -- 15
+newline$ -- 48
+num.names$ -- 15
+pop$ -- 25
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 170
+skip$ -- 252
 stack$ -- 0
-substring$ -- 246
-swap$ -- 105
+substring$ -- 381
+swap$ -- 152
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 30
-width$ -- 10
-write$ -- 93
+warning$ -- 2
+while$ -- 49
+width$ -- 17
+write$ -- 149
+(There were 2 warnings)

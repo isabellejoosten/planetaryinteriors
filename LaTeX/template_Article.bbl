@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{jinInternalStructureModels2012}
 S.~Jin and J.~Ji, ``The internal structure models of {Europa},'' {\em Science
@@ -42,8 +42,39 @@ V.~A. Kronrod and O.~L. Kuskov, ``Chemical differentiation of the {Galilean}
   pp.~529--546, June 2006.
 
 \bibitem{prenticeORIGINBULKCHEMICAL1999}
-A.~J.~R. Prentice, ``Origin, bulk chemical composition and physical structure
-  of the galilean satellites of jupiter: a post-galileo analysis,'' {\em Earth,
-  Moon, and Planets}, vol.~87, no.~1, pp.~11--55, 1999.
+A.~J.~R. Prentice, ``{ORIGIN}, {BULK} {CHEMICAL} {COMPOSITION} {AND} {PHYSICAL}
+  {STRUCTURE} {OF} {THE} {GALILEAN} {SATELLITES} {OF} {JUPITER}: {A}
+  {POST}-{GALILEO} {ANALYSIS},'' {\em Earth, Moon, and Planets}, vol.~87,
+  no.~1, pp.~11--55, 1999.
+
+\bibitem{gronvoldThermodynamicsIronSulfides}
+F.~Gronvold, S.~Stolen, A.~K. Labban, and E.~F. Westrum, ``Thermodynamics of
+  iron sulfides {I}. {Heat} capacity and thermodynamic properties of {FesS10}
+  at temperatures from 5 {K} to 740 {K},''
+
+\bibitem{chopelasThermalExpansivityLower1992}
+A.~Chopelas and R.~Boehler, ``Thermal expansivity in the lower mantle,'' {\em
+  Geophysical Research Letters}, vol.~19, pp.~1983--1986, Oct. 1992.
+
+\bibitem{koyamaThermalExpansivityTwodimensional2001}
+Y.~Koyama and H.~Tanaka, ``Thermal expansivity of two-dimensional ice,'' {\em
+  Chemical Physics Letters}, vol.~341, pp.~619--624, June 2001.
+
+\bibitem{terranovaPhaseStabilityThermodynamic2017}
+U.~Terranova and N.~H. De~Leeuw, ``Phase stability and thermodynamic properties
+  of {FeS} polymorphs,'' {\em Journal of Physics and Chemistry of Solids},
+  vol.~111, pp.~317--323, Dec. 2017.
+
+\bibitem{murakamiRelationshipPhysicalProperties2001}
+T.~Murakami and S.~Yoshioka, ``The relationship between the physical properties
+  of the assumed pyrolite composition and depth distributions of seismic
+  velocities in the upper mantle,'' {\em Physics of the Earth and Planetary
+  Interiors}, vol.~125, pp.~1--17, Oct. 2001.
+
+\bibitem{neumeierElasticConstantsBulk2018}
+J.~J. Neumeier, ``Elastic {Constants}, {Bulk} {Modulus}, and {Compressibility}
+  of {H2O} {Ice} {I} \textit{h} for the {Temperature} {Range} 50 {K}–273
+  {K},'' {\em Journal of Physical and Chemical Reference Data}, vol.~47,
+  p.~033101, Sept. 2018.
 
 \end{thebibliography}

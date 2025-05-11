@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.1)  10 MAY 2025 20:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.1)  11 MAY 2025 21:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -164,50 +164,95 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 12.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 17.
+(Font)              <7> on input line 18.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 17.
- [1{C:/Users/Isabe/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
+(Font)              <5> on input line 18.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1{C:/Users/Isabe/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
 
 ]
-<profile1.png, id=14, 1110.0672pt x 615.7404pt>
+<profile1.png, id=12, 1110.0672pt x 615.7404pt>
 File: profile1.png Graphic file (type png)
 <use profile1.png>
-Package pdftex.def Info: profile1.png  used on input line 99.
-(pdftex.def)             Requested size: 251.55872pt x 139.53152pt.
+Package pdftex.def Info: profile1.png  used on input line 100.
+(pdftex.def)             Requested size: 513.11745pt x 284.61575pt.
 
-Underfull \hbox (badness 1354) in paragraph at lines 104--104
+Underfull \hbox (badness 1354) in paragraph at lines 105--105
 [][]\OT1/cmr/m/n/8 The thick-ness and den-sity of each layer was taken from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 104--104
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
 \OT1/cmtt/m/n/8 http : / / hyperphysics . phy-[]astr . gsu . edu / hbase / Geop
 hys /
  []
 
-[2 <./profile1.png>] (template_Article.bbl
-Underfull \hbox (badness 1325) in paragraph at lines 8--12
-\OT1/cmr/m/n/10 and B. Ro-manow-icz, ``Long-period seis-mol-ogy on
- []
 
-[3]) [4
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-] (template_Article.aux)
+[2]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 3872) has occurred while \output is active []
+
+ [3 <./profile1.png>]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 129.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 153.
+
+<jinjipressure.png, id=28, 858.95906pt x 612.78937pt>
+File: jinjipressure.png Graphic file (type png)
+<use jinjipressure.png>
+Package pdftex.def Info: jinjipressure.png  used on input line 172.
+(pdftex.def)             Requested size: 251.55872pt x 179.46223pt.
+<comparison.png, id=29, 718.93594pt x 949.29657pt>
+File: comparison.png Graphic file (type png)
+<use comparison.png>
+Package pdftex.def Info: comparison.png  used on input line 178.
+(pdftex.def)             Requested size: 251.55872pt x 332.15738pt.
+<profile2.png, id=30, 1110.0672pt x 615.7404pt>
+File: profile2.png Graphic file (type png)
+<use profile2.png>
+Package pdftex.def Info: profile2.png  used on input line 184.
+(pdftex.def)             Requested size: 513.11745pt x 284.61575pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 3471) has occurred while \output is active []
+
+ [4 <./jinjipressure.png>] (template_Article.bbl [5 <./comparison.png>]) [6
+
+ <./profile2.png>] (template_Article.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1991 strings out of 474486
- 33207 string characters out of 5743756
- 1944542 words of memory out of 5000000
- 24291 multiletter control sequences out of 15000+600000
+ 2028 strings out of 474486
+ 34104 string characters out of 5743756
+ 1947542 words of memory out of 5000000
+ 24328 multiletter control sequences out of 15000+600000
  562866 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,15n,65p,1470b,323s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,15n,65p,1470b,327s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Isabe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -223,11 +268,12 @@ pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
 m/cmr7.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmr8.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/pub
 lic/amsfonts/cm/cmsy10.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on template_Article.pdf (4 pages, 264355 bytes).
+type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Isabe/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on template_Article.pdf (6 pages, 587103 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
+ 110 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
