@@ -4,16 +4,19 @@ import matplotlib.pyplot as plt
 import functions
 
 def Pressure(p, rho, g):
+    '''Performs a simple numerical integration for the pressure at each radius increment.'''
     func = -rho*g
     p = p - func*params.delta_r
     return p
 
 def Mass(M, r, rho):
+    '''Performs a simple numerical integration for the planet mass.'''
     func = 4*np.pi*rho*r**2
     M += func*params.delta_r
     return M
 
 def Gravity(G, M, r):
+    '''Returns the gravitational acceleration at radius r.'''
     if r == 0:
         g = 0
     else:
@@ -21,6 +24,7 @@ def Gravity(G, M, r):
     return g
 
 def inertia(r, rho, delta_r, M):
+    '''Returns the mass moment of inertia of the planet from an array of densities at each radius increment.'''
     inertia = 0
     for i in range(len(r)):
         inertia += delta_r*rho[i]*r[i]**4
@@ -40,9 +44,10 @@ def get_rayleigh(rho, alpha, g, T, D, kappa, eta):
     return Ra
 
 def create_arrays():
+    '''Sets up all arrays needed to perform the integrations for the 1D model. Returns arrays of zeros for mass, pressure, and gravity. Returns an array of evenly spaced radii, and an array of densities based on the core and mantle boundaries specified in params.py.'''
     r = np.arange(0, params.rtotal + params.delta_r, params.delta_r)
     rho = np.zeros(len(r))
-    for i in range(len(r)):
+    for i in range(len(r)): # I think I'm doing this twice, could probably remove this loop
         if r[i] <= params.core_boundary:
             rho[i] = 5500.0
         elif params.core_boundary < r[i] and r[i] <= params.mantle_boundary:
@@ -55,7 +60,27 @@ def create_arrays():
 
     return M, g, p, r, rho
 
+def create_arrays_4layer(core_boundary, mantle_boundary, ocean_bounadry):
+    '''Sets up all arrays needed to perform the integrations for the 1D model, assuming 4 layers. Returns arrays of zeros for mass, pressure, and gravity. Returns an array of evenly spaced radii, and an array of densities based on the core and mantle boundaries specified in params.py.'''
+    r = np.arange(0, params.rtotal + params.delta_r, params.delta_r)
+    rho = np.zeros(len(r))
+    for i in range(len(r)): # I think I'm doing this twice, could probably remove this loop
+        if r[i] <= core_boundary:
+            rho[i] = 5500.0
+        elif core_boundary < r[i] and r[i] <= mantle_boundary:
+            rho[i] = 3300.0
+        elif mantle_boundary < r[i] and r[i] <= ocean_bounadry:
+            rho[i] = 1000.0
+        else:
+            rho[i] = 
+    M = np.zeros(len(r))
+    p = np.zeros(len(r))
+    g = np.zeros(len(r))
+
+    return M, g, p, r, rho
+
 def create_temp_array(Ttype, r):
+    '''Returns a linear temperature profile ranging from a selected core temperature to the observed surface temperature.'''
     if Ttype == 'min':
         T = np.flip(np.arange(params.surface_temp, params.core_temp_min, (params.core_temp_min-params.surface_temp)/len(r)))
     elif Ttype == 'mean':
@@ -116,3 +141,38 @@ def iterate(M, g, p, r, rho, T):
             mantle_boundary += params.delta_r
     
     return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount
+
+def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary):
+    for i in range(0, len(r)-1):
+        M[i+1] = Mass(M[i], r[i+1], rho[i+1])
+
+    for i in range(len(r)):
+        g[i] = Gravity(params.G, M[i], r[i])
+
+    for i in np.flip(range(1, len(r))):
+        p[i-1] = Pressure(p[i], rho[i], g[i])
+    
+    core_mantle_boundary_temp = 0
+    mantle_shell_boundary_temp = 0
+    core_mantle_boundary_pressure = 0
+    mantle_shell_boundary_pressure = 0
+
+    inertia = functions.inertia(r, rho, params.delta_r, M)
+    for i in range(len(r)):
+        if r[i] <= core_boundary:
+            rho[i] = 5500.0*(1-params.core_alpha*(abs(T[0]-T[i]))+(abs(p[0]-p[i]))/params.core_K)
+            if r[i] <= core_boundary and r[i+1] > core_boundary:
+                core_mantle_boundary_temp = T[i]
+                core_mantle_boundary_pressure = p[i]
+        elif core_boundary < r[i] and r[i] <= mantle_boundary:
+            rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp-T[i]))+(abs(core_mantle_boundary_pressure-p[i]))/params.mantle_K)
+            if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
+                mantle_shell_boundary_temp = T[i]
+                mantle_shell_boundary_pressure = p[i]
+        else:
+            rho[i] = 1000.0*(1-params.shell_alpha*(abs(mantle_shell_boundary_temp-T[i]))+((mantle_shell_boundary_pressure-p[i]))/params.shell_K)
+
+    #print('Residual moment of inertia: ', abs((inertia-params.inertia_observed)/params.inertia_observed*100), ' percent')
+    #print('Residual mass: ', abs((M[-1]-params.M_observed)/params.M_observed*100), ' percent')
+
+    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia
