@@ -1,0 +1,8 @@
+#!C:\Users\Isabe\Documents\2 University\24 MSc Courses\24.13 AE4893-24 Physics of Planetary Interiors\Code\burnman-go\Scripts\python.exe
+# -*- coding: UTF-8 -*-
+from __future__ import print_function, division, absolute_import
+
+from numba.misc.numba_entry import main
+
+if __name__ == "__main__":
+    main()
