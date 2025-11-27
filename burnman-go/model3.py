@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import burnman
 from burnman import Mineral, PerplexMaterial, Composite, Layer, Planet
 from burnman import minerals
+from model1 import g as model1_g
+from model1 import r as model1_r
+from model1 import rho as model1_rho
+from model1 import p as model1_p
 
 
 #depths = np.linspace(2890e3, 670e3, 20)
@@ -65,18 +69,18 @@ for bound in bounds:
 
 ax[0].plot(europa.radii / 1.e3, europa.density / 1.e3,
            label='Model III')
-#ax[0].plot(premradii / 1.e3, premdensity / 1.e3, linestyle=':', c='black', label='PREM')
+ax[0].plot(model1_r / 1.e3, model1_rho / 1.e3, linestyle=':', c='black', label='Model I')
 ax[0].set_ylabel('Density ($10^3$ kg/m$^3$)')
 ax[0].legend()
 
 # Make a subplot showing the calculated pressure profile
 ax[1].plot(europa.radii / 1.e3, europa.pressure / 1.e9)
-#ax[1].plot(premradii / 1.e3, prempressure / 1.e9, c='black', linestyle=':')
+ax[1].plot(model1_r / 1.e3, model1_p / 1.e9, c='black', linestyle=':')
 ax[1].set_ylabel('Pressure (GPa)')
 
 # Make a subplot showing the calculated gravity profile
 ax[2].plot(europa.radii / 1.e3, europa.gravity)
-#ax[2].plot(premradii / 1.e3, premgravity, c='black', linestyle=':')
+ax[2].plot(model1_r / 1.e3, model1_g, c='black', linestyle=':')
 ax[2].set_ylabel('Gravity (m/s$^2)$')
 ax[2].set_xlabel('Radius (km)')
 
