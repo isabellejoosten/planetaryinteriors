@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import burnman
 from burnman import Mineral, PerplexMaterial, Composite, Layer, Planet
 from burnman import minerals
+import params
 from model1 import g as model1_g
 from model1 import r as model1_r
 from model1 import rho as model1_rho
@@ -19,8 +20,8 @@ core_material = minerals.SE_2015.bcc_iron()
 
 core = Layer(name='Core', radii=np.linspace(0, 601e3))
 core.set_material(core_material)    
-core.set_temperature_mode(temperature_mode='adiabatic',
-                                  temperature_top=932.)
+core.set_temperature_mode(temperature_mode='user-defined',
+                                  temperatures = np.linspace(params.core_temp_mean, 931.6))
 core.set_pressure_mode(pressure_mode='self-consistent',
                                pressure_top=3.44e9,
                                gravity_bottom=0)
@@ -28,12 +29,12 @@ core.set_pressure_mode(pressure_mode='self-consistent',
 # The "make" method does the calculations to make the pressure and gravity self-consistent.
 core.make()
 
-mantle_material = minerals.SLB_2022.olivine(molar_fractions=(0.5, 0.5))
+mantle_material = minerals.SLB_2022.olivine(molar_fractions=(0.7, 0.3))
 
 mantle = Layer(name='Mantle', radii=np.linspace(601e3, 1565e3-166e3))
 mantle.set_material(mantle_material)
-mantle.set_temperature_mode(temperature_mode='adiabatic',
-                                  temperature_top=246.)
+mantle.set_temperature_mode(temperature_mode='user-defined',
+                                  temperatures = np.linspace(931.6, 245.5))
 mantle.set_pressure_mode(pressure_mode='self-consistent',
                                pressure_top=0.36e9,
                                gravity_bottom=0.91)
@@ -44,8 +45,8 @@ shell_material = minerals.HP_2011_ds62.h2oL()
 
 shell = Layer(name='Shell', radii=np.linspace(1565e3-166e3, 1565e3))
 shell.set_material(shell_material)
-shell.set_temperature_mode(temperature_mode='adiabatic',
-                                  temperature_top=104.)
+shell.set_temperature_mode(temperature_mode='user-defined',
+                                  temperatures = np.linspace(245.5, params.surface_temp))
 shell.set_pressure_mode(pressure_mode='self-consistent',
                                pressure_top=0,
                                gravity_bottom=1.38)
@@ -65,7 +66,7 @@ ax = [fig.add_subplot(2, 2, i) for i in range(1, 5)]
 
 bounds = np.array([[layer.radii[0]/1.e3, layer.radii[-1]/1.e3]
                    for layer in europa.layers])
-maxy = [10, 10, 2, 1000]
+maxy = [10, 10, 2, 1500]
 for bound in bounds:
     for i in range(4):
         ax[i].fill_betweenx([0., maxy[i]],

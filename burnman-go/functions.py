@@ -94,9 +94,31 @@ def iterate(M, g, p, r, rho, T):
     simcount = 0
     core_boundary = params.core_boundary
     mantle_boundary = params.mantle_boundary
+    core_mantle_boundary_temp = 0
+    mantle_shell_boundary_temp = 0
+    core_mantle_boundary_pressure = 0
+    mantle_shell_boundary_pressure = 0
+    core_mantle_boundary_gravity = 0
+    mantle_shell_boundary_gravity = 0
     while abs((inertia-params.inertia_observed)/params.inertia_observed*100) > 1.0 or abs((M[-1]-params.M_observed)/params.M_observed*100) > 1.0:
         simcount += 1
         #print("Starting simulation ", simcount)
+
+        for i in range(len(r)):
+            if r[i] <= core_boundary:
+                rho[i] = 5500.0*(1-params.core_alpha*(abs(T[0]-T[i]))+(abs(p[0]-p[i]))/params.core_K)
+                if r[i] <= core_boundary and r[i+1] > core_boundary:
+                    core_mantle_boundary_temp = T[i]
+                    core_mantle_boundary_pressure = p[i]
+                #    core_mantle_boundary_gravity = g[i]
+            elif core_boundary < r[i] and r[i] <= mantle_boundary:
+                rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp-T[i]))+(abs(core_mantle_boundary_pressure-p[i]))/params.mantle_K)
+                if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
+                    mantle_shell_boundary_temp = T[i]
+                    mantle_shell_boundary_pressure = p[i]
+                #    mantle_shell_boundary_gravity = g[i]
+            else:
+                rho[i] = 1000.0*(1-params.shell_alpha*(abs(mantle_shell_boundary_temp-T[i]))+((mantle_shell_boundary_pressure-p[i]))/params.shell_K)
 
         for i in range(0, len(r)-1):
             M[i+1] = Mass(M[i], r[i+1], rho[i+1])
@@ -106,31 +128,9 @@ def iterate(M, g, p, r, rho, T):
 
         for i in np.flip(range(1, len(r))):
             p[i-1] = Pressure(p[i], rho[i], g[i])
-    
-        core_mantle_boundary_temp = 0
-        mantle_shell_boundary_temp = 0
-        core_mantle_boundary_pressure = 0
-        mantle_shell_boundary_pressure = 0
-        core_mantle_boundary_gravity = 0
-        mantle_shell_boundary_gravity = 0
-        
 
         inertia = functions.inertia(r, rho, params.delta_r, M)
-        for i in range(len(r)):
-            if r[i] <= core_boundary:
-                rho[i] = 5500.0*(1-params.core_alpha*(abs(T[0]-T[i]))+(abs(p[0]-p[i]))/params.core_K)
-                if r[i] <= core_boundary and r[i+1] > core_boundary:
-                    core_mantle_boundary_temp = T[i]
-                    core_mantle_boundary_pressure = p[i]
-                    core_mantle_boundary_gravity = g[i]
-            elif core_boundary < r[i] and r[i] <= mantle_boundary:
-                rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp-T[i]))+(abs(core_mantle_boundary_pressure-p[i]))/params.mantle_K)
-                if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
-                    mantle_shell_boundary_temp = T[i]
-                    mantle_shell_boundary_pressure = p[i]
-                    mantle_shell_boundary_gravity = g[i]
-            else:
-                rho[i] = 1000.0*(1-params.shell_alpha*(abs(mantle_shell_boundary_temp-T[i]))+((mantle_shell_boundary_pressure-p[i]))/params.shell_K)
+    
 
         #print('Residual moment of inertia: ', abs((inertia-params.inertia_observed)/params.inertia_observed*100), ' percent')
         #print('Residual mass: ', abs((M[-1]-params.M_observed)/params.M_observed*100), ' percent')
@@ -145,7 +145,7 @@ def iterate(M, g, p, r, rho, T):
         elif inertia < params.inertia_observed:
             mantle_boundary += params.delta_r
     
-    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount, core_mantle_boundary_pressure, mantle_shell_boundary_pressure, core_mantle_boundary_temp, mantle_shell_boundary_temp, core_mantle_boundary_gravity, mantle_shell_boundary_gravity
+    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount
 
 def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary):
     for i in range(0, len(r)-1):

@@ -5,7 +5,7 @@
 
 %opening
 \title{One-Dimensional Interior Models of Europa}
-\author{Isabelle Joosten\\Student number 4998480\\Assignment 1 for the course ``Physics of Planetary Interiors" (AE4893-24)\\Total time spent: 44 hours}
+\author{Isabelle Joosten\\Student number 4998480\\Assignment 1 for the course ``Physics of Planetary Interiors" (AE4893-24)\\Total time spent: 55 hours}
 
 \begin{document}
 
@@ -187,7 +187,13 @@ The results of model II are summarised in Table \ref{tab:model2results}, and the
 \end{figure*}
 \section{Results, Verification, and Validation of Model III}
 \label{sec:model3}
-Unfortunately, due to problems installing the BurnMan module, model III has not been constructed yet.
+Model III makes use of the Burnman module available for Python and was created by modifying the file ``tutorial\_03\_layers\_and\_planets.ipynb" included in the Burnman installation. The Burnman module includes a mineral library, but it is somewhat limited. Thus, for model III, slightly different materials were chosen than for models I and II: the core is assumed to be pure iron rather than iron(II)sulfide, the mantle is assumed to consist of Olivine, and the outer shell is assumed to be entirely liquid water. For each layer, the temperature mode is set to ``adiabetic", and the pressure mode is set to ``self-sufficient". The initial values for pressure, temperature, and gravity are taken from the results of model II (at the mean core temperature). The results of this model and a comparison to models I and II are shown in Figure \ref{fig:123comp}.
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{model123comparison.png}
+	\caption{The density, pressure, gravity, and temperature profiles of Europa as calculated by the 3 different models.}
+	\label{fig:123comp}
+\end{figure}
 \section{Comparison between models I and II}
 When comparing the values found with model I with those found using model II, some interesting observations can be made. Firstly, the models predict the core of Europa to be largest at the chosen mean temperature value rather than at one of the extreme ends. At the mean temperature, the predicted core radius is 799 km, which is significantly higher than the 683 km radius found by model I. It can be concluded that choosing a good temperature profile is important for the quality of the model, as it has a large effect on the outcome.\\
 It should be noted that the mean temperature model is the only one of the models that converges within one iteration. Setting a significantly different initial core radius, for example 600 km instead of the 800 km used to generate the results in Table \ref{tab:model2results}, also results in a lower core radius, namely 601 km, to which the model also converges after a single iteration. Using the same initial core radius in model I results in a radius of 649 km compared to 683 km, so it does seem that model II is more sensitive to the initial core radius value than model I.\\
