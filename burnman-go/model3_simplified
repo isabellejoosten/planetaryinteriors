@@ -1,0 +1,84 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import burnman
+from burnman import Mineral, PerplexMaterial, Composite, Layer, Planet
+from burnman import minerals
+import params
+
+from model2 import core_mantle_boundary_pressure_min 
+from model2 import core_mantle_boundary_gravity_min, core_mantle_boundary_temp_min 
+from model2 import mantle_shell_boundary_gravity_min, mantle_shell_boundary_pressure_min, mantle_shell_boundary_temp_min
+
+core_material = minerals.SE_2015.bcc_iron()
+mantle_material = minerals.SLB_2022.olivine(molar_fractions=(0.5, 0.5))
+shell_material = minerals.HP_2011_ds62.h2oL()
+
+europa_min_mass = 0
+europa_mean_mass = 0
+europa_max_mass = 0
+europa_min_moi = 0
+europa_mean_moi = 0
+europa_max_moi = 0
+
+cm_bound_min = params.core_boundary
+ms_bound_min = params.mantle_boundary
+simcount = 0
+while abs(europa_min_mass-params.M_observed)/params.M_observed*100 > 0.5:
+    print("Starting simulation ", simcount)
+
+    shell_min = Layer(name='Shell', radii=np.linspace(ms_bound_min, params.rtotal))
+    shell_min.set_material(shell_material)
+    shell_min.set_temperature_mode(temperature_mode='user-defined',
+                                  temperatures = np.linspace(mantle_shell_boundary_temp_min, params.surface_temp))
+    shell_min.set_pressure_mode(pressure_mode='self-consistent',
+                               pressure_top=0,
+                               gravity_bottom=mantle_shell_boundary_gravity_min)
+    shell_min.make()
+
+    mantle_min = Layer(name='Mantle', radii=np.linspace(cm_bound_min, ms_bound_min))
+    mantle_min.set_material(mantle_material)
+    mantle_min.set_temperature_mode(temperature_mode='user-defined',
+                                  temperatures = np.linspace(core_mantle_boundary_temp_min, mantle_shell_boundary_temp_min))
+    mantle_min.set_pressure_mode(pressure_mode='self-consistent',
+                               pressure_top=shell_min.pressure[-1],
+                               gravity_bottom=core_mantle_boundary_gravity_min)
+    mantle_min.make()
+
+    core_min = Layer(name='Core', radii=np.linspace(0, cm_bound_min))
+    core_min.set_material(core_material)    
+    core_min.set_temperature_mode(temperature_mode='user-defined',
+                                  temperatures = np.linspace(params.core_temp_min, core_mantle_boundary_temp_min))
+    core_min.set_pressure_mode(pressure_mode='self-consistent',
+                               pressure_top=mantle_min.pressure[-1],
+                               gravity_bottom=0)
+    core_min.make()
+
+    #mantle_min.set_pressure_mode(pressure_mode='self-consistent', pressure_top=shell_min.pressure[-1], gravity_bottom=core_min.gravity[-1])
+    #shell_min.set_pressure_mode()
+
+
+    europa_min = Planet('Europa (minimum core temperature)', [core_min, mantle_min, shell_min], verbose=False)
+    europa_min.make()
+
+    if europa_min.mass > params.M_observed:
+            cm_bound_min -= params.delta_r
+    elif europa_min.mass < params.M_observed:
+            cm_bound_min += params.delta_r
+    if europa_min.moment_of_inertia_factor > params.inertia_observed:
+            ms_bound_min -= params.delta_r
+    elif europa_min.moment_of_inertia_factor < params.inertia_observed:
+            ms_bound_min += params.delta_r
+    
+    europa_min_mass = europa_min.mass
+    europa_min_moi = europa_min.moment_of_inertia_factor
+    
+    simcount += 1
+    print('Deviation from observed mass: ', abs(europa_min.mass-params.M_observed)/params.M_observed*100, "%")
+    print("Deviation from observed moment of inertia factor: ", abs(europa_min.moment_of_inertia_factor-params.inertia_observed)/params.inertia_observed*100, "%")
+    print("Core radius: ", cm_bound_min)
+
+print("----- MINIMUM CORE TEMPERATURE: -----")
+print("Europa's total mass: ", europa_min.mass, " [kg]")
+print('Deviation from observed mass: ', abs(europa_min.mass-params.M_observed)/params.M_observed*100, "%")
+print("Europa's moment of inertia factor: ", europa_min.moment_of_inertia_factor, " [-]")
+print("Deviation from observed moment of inertia factor: ", abs(europa_min.moment_of_inertia_factor-params.inertia_observed)/params.inertia_observed*100, "%")
