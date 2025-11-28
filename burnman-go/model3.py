@@ -13,6 +13,7 @@ from model2 import r_mean as model2_r
 from model2 import rho_mean as model2_rho
 from model2 import p_mean as model2_p
 from model2 import T_mean as model2_T
+from model2 import core_mantle_boundary_pressure_mean, core_mantle_boundary_gravity_mean, core_mantle_boundary_temp_mean, mantle_shell_boundary_gravity_mean, mantle_shell_boundary_pressure_mean, mantle_shell_boundary_temp_mean
 
 
 #depths = np.linspace(2890e3, 670e3, 20)
@@ -21,9 +22,9 @@ core_material = minerals.SE_2015.bcc_iron()
 core = Layer(name='Core', radii=np.linspace(0, 601e3))
 core.set_material(core_material)    
 core.set_temperature_mode(temperature_mode='user-defined',
-                                  temperatures = np.linspace(params.core_temp_mean, 931.6))
+                                  temperatures = np.linspace(params.core_temp_mean, core_mantle_boundary_temp_mean))
 core.set_pressure_mode(pressure_mode='self-consistent',
-                               pressure_top=3.44e9,
+                               pressure_top=core_mantle_boundary_pressure_mean,
                                gravity_bottom=0)
 
 # The "make" method does the calculations to make the pressure and gravity self-consistent.
@@ -34,10 +35,10 @@ mantle_material = minerals.SLB_2022.olivine(molar_fractions=(0.7, 0.3))
 mantle = Layer(name='Mantle', radii=np.linspace(601e3, 1565e3-166e3))
 mantle.set_material(mantle_material)
 mantle.set_temperature_mode(temperature_mode='user-defined',
-                                  temperatures = np.linspace(931.6, 245.5))
+                                  temperatures = np.linspace(core_mantle_boundary_temp_mean, mantle_shell_boundary_temp_mean))
 mantle.set_pressure_mode(pressure_mode='self-consistent',
-                               pressure_top=0.36e9,
-                               gravity_bottom=0.91)
+                               pressure_top=mantle_shell_boundary_pressure_mean,
+                               gravity_bottom=core_mantle_boundary_gravity_mean)
 
 mantle.make()
 
@@ -46,10 +47,10 @@ shell_material = minerals.HP_2011_ds62.h2oL()
 shell = Layer(name='Shell', radii=np.linspace(1565e3-166e3, 1565e3))
 shell.set_material(shell_material)
 shell.set_temperature_mode(temperature_mode='user-defined',
-                                  temperatures = np.linspace(245.5, params.surface_temp))
+                                  temperatures = np.linspace(mantle_shell_boundary_temp_mean, params.surface_temp))
 shell.set_pressure_mode(pressure_mode='self-consistent',
                                pressure_top=0,
-                               gravity_bottom=1.38)
+                               gravity_bottom=mantle_shell_boundary_gravity_mean)
 
 shell.make()
 

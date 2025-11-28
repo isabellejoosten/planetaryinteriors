@@ -110,13 +110,13 @@ def iterate(M, g, p, r, rho, T):
                 if r[i] <= core_boundary and r[i+1] > core_boundary:
                     core_mantle_boundary_temp = T[i]
                     core_mantle_boundary_pressure = p[i]
-                #    core_mantle_boundary_gravity = g[i]
+                    core_mantle_boundary_gravity = g[i]
             elif core_boundary < r[i] and r[i] <= mantle_boundary:
                 rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp-T[i]))+(abs(core_mantle_boundary_pressure-p[i]))/params.mantle_K)
                 if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
                     mantle_shell_boundary_temp = T[i]
                     mantle_shell_boundary_pressure = p[i]
-                #    mantle_shell_boundary_gravity = g[i]
+                    mantle_shell_boundary_gravity = g[i]
             else:
                 rho[i] = 1000.0*(1-params.shell_alpha*(abs(mantle_shell_boundary_temp-T[i]))+((mantle_shell_boundary_pressure-p[i]))/params.shell_K)
 
@@ -145,7 +145,7 @@ def iterate(M, g, p, r, rho, T):
         elif inertia < params.inertia_observed:
             mantle_boundary += params.delta_r
     
-    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount
+    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount, core_mantle_boundary_gravity, mantle_shell_boundary_gravity, core_mantle_boundary_temp, mantle_shell_boundary_temp, core_mantle_boundary_pressure, mantle_shell_boundary_pressure
 
 def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary):
     for i in range(0, len(r)-1):
