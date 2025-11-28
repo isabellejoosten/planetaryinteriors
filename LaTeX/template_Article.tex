@@ -5,14 +5,14 @@
 
 %opening
 \title{One-Dimensional Interior Models of Europa}
-\author{Isabelle Joosten\\Student number 4998480\\Assignment 1 for the course ``Physics of Planetary Interiors" (AE4893-24)\\Total time spent: 55 hours}
+\author{Isabelle Joosten\\Student number 4998480\\Assignment 1 for the course ``Physics of Planetary Interiors" (AE4893-24)\\Total time spent: 60 hours}
 
 \begin{document}
 
 \maketitle
 
 \section{Introduction}
-Europa is one of Jupiter's largest moons. It is an interesting planetary body because it is commonly thought to have a subsurface liquid water ocean that may be capable of harbouring life. In this report, various models of Europa's interior found in literature are analysed and compared. Based on those, three new models are constructed, with the aim to characterise the global interior of the icy moon.
+Europa is one of Jupiter's largest moons. It is a scientifically interesting planetary body, as it is commonly thought to have a subsurface liquid water ocean that may be capable of harbouring life. In this report, various models of Europa's interior found in literature are analysed and compared. Based on these, three new models are constructed, with the aim of characterising Europa's global interior.
 
 \section{Literature Study}
 Several existing models of Europa's interior were consulted for the purposes of this assignment. Jin and Ji\cite{jinInternalStructureModels2012} published an article in which they outline the creation of 3 models of Europa, the difference between the models being the assumed composition of the core: Fe, FeS, or Fe\textsubscript{0.8}(FeS)\textsubscript{0.2}. Aside from the core, Jin and Ji define two more layers in each of their models: an olivine mantle and an outer shell made of water. To generate interior profiles of Europa, they choose a fractional mass for each of the 3 layers as well as a centre pressure. The program they developed performs an integration from the centre to the surface in order to solve for the surface pressure, logically must be 0. Based on the calculated surface pressure, the program then adjusts the centre pressure before restarting the integration, repeating this sequence until the calculated surface pressure is 0.\\
@@ -21,10 +21,6 @@ Kuskov and Kronrod\cite{kuskovInternalStructureEuropa2005} base their model on t
 Finally, Howell\cite{howellLikelyThicknessEuropas2021} focuses on Europa's icy outer shell, and attempts to determine the thickness of this shell based on its steady-state heat flux. This model differs from the others in that it does not provide a profile of Europa's full interior, but rather provides a detailed profile of the ice crust based on assumed values for the rest of the interior.\\
 Because all models found use a different approach and were created with a different goal in mind, a direct comparison is difficult to make. Nevertheless, there are a few notable trends among the articles. There seems to be a general consensus among researchers that Europa consists of an iron-rich core, a silicate or chondritic mantle, and an ice/water outer shell\footnote{It should be noted, though, that this is by no means definitively proven. See for example Trinh et al.\cite{trinhSlowEvolutionEuropas2023}, in which the existence of Europa's metallic core is questioned based on reanalysis of Galileo data.}. Numerically, there is some variation between the outputs of each model, part of which can be explained by the fact that the models use different theoretical values as inputs, most of which are, themselves, obtained through theoretical modeling\footnote{A frequently cited paper in literature about Europa's interior is Anderson et al. (1998)\cite{andersonEuropasDifferentiatedInternal1998}, which is where a lot of input values are taken from. Unfortunately, this article appears to be behind a paywall.}. A summary of relevant values is given in Table \ref{tab:modelcomparison}. As each of these models has undergone some form of verification and validation before being published, these values, or averages thereof, will be used as reference values for the remainder of this report.
 
-% Please add the following required packages to your document preamble:
-% \usepackage{graphicx}
-% Please add the following required packages to your document preamble:
-% \usepackage{graphicx}
 \begin{table*}[h]
 	\caption{An overview of the models analysed for this assignment.}
 	\label{tab:modelcomparison}
@@ -94,13 +90,7 @@ To construct model I, the following assumptions were made:
 	\item Europa's observed mass is 479.7(10)\textsuperscript{20} kg;
 	\item Europa's observed dimensionless moment of inertia is 0.346.
 \end{itemize}
-The initial core radius and outer shell thickness are chosen somewhat arbitrarily: based on the values found in Table \ref{tab:modelcomparison}, the core-mantle boundary is initially set to 800 km from the centre, and the mantle-shell boundary is set to 1400 km from the centre, which gives an outer shell thickness of 165 km. Running the program with these inputs, using a step size of 1 km, results in a predicted mass of 4.84(10)\textsuperscript{22} kg, which deviates 0.96\% from the observed value, and a moment of inertia of 0.346, which deviates 0.031\% from the observed value. Furthermore, the model predicts the pressure at the centre of Europa to be 5.1 GPa, which roughly agrees with the values in Table \ref{tab:modelcomparison}. The gravitational acceleration at the surface is found to be 1.32 m/s\textsuperscript{2}, which matches the value 1.31 m/s\textsuperscript{2} given by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006}. The core radius and shell thickness found are 683 and 116 km, respectively, most closely resembling the models by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006} and Howell\cite{howellLikelyThicknessEuropas2021}. It takes the program 137 iterations to converge to these values. An overview of the complete one-dimensional profile generated using this model is shown in Figure \ref{fig:123comp}.\\
-\begin{figure}
-	\centering
-	\includegraphics[width=\textwidth]{model123comparison.png}
-	\caption{The density, pressure, gravity, and temperature profiles of Europa as calculated by the 3 different models.}
-	\label{fig:123comp}
-\end{figure}
+The initial core radius and outer shell thickness are chosen somewhat arbitrarily: based on the values found in Table \ref{tab:modelcomparison}, the core-mantle boundary is initially set to 800 km from the centre, and the mantle-shell boundary is set to 1400 km from the centre, which gives an outer shell thickness of 165 km. Running the program with these inputs, using a step size of 1 km, results in a predicted mass of 4.84(10)\textsuperscript{22} kg, which deviates 0.96\% from the observed value, and a moment of inertia of 0.346, which deviates 0.031\% from the observed value. Furthermore, the model predicts the pressure at the centre of Europa to be 5.1 GPa, which roughly agrees with the values in Table \ref{tab:modelcomparison}. The gravitational acceleration at the surface is found to be 1.32 m/s\textsuperscript{2}, which matches the value 1.31 m/s\textsuperscript{2} given by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006}. The core radius and shell thickness found are 683 and 116 km, respectively, most closely resembling the models by Cammarano et al.\cite{cammaranoLongperiodSeismologyEuropa2006} and Howell\cite{howellLikelyThicknessEuropas2021}. It takes the program 137 iterations to converge to these values.\\
 To verify the model, a few tests were done. The sensitivity of the code was checked by decreasing the initial core radius by 1 km and running the program again. Another check was done by decreasing the initial shell thickness, and two more by increasing each of the values by 1 km. All output values remained the same in each of these four cases. Even when the initial core radius is set to 0, the program eventually converges to roughly the same values as with more realistic initial conditions. Together with the fact that the functions written for the simulation were verified by comparing their outputs with analytical solutions of the equations they were made to solve, this model can be considered verified.\\
 The model was validated by changing all the inputs to Earth's characteristics, as these are known with more certainty than Europa's characteristics\footnote{The thickness and density of each layer was taken from \url{http://hyperphysics.phy-astr.gsu.edu/hbase/Geophys/earthstruct.html}.}. The model accurately predicted the pressure at Earth's centre as well as the gravitational acceleration at Earth's surface. It also quite accurately predicted the size of Earth's core, but, interestingly enough, it seems to favour an unrealistically thick crust regardless of the initial conditions set. This could be a consequence of the somewhat oversimplified criteria for adjusting the core radius and crust thickness, or of the assumption that the density of each layer is homogeneous. Such an assumption should more significantly affect a model of Earth than of Europa simply because Earth is so much more massive. It can be concluded that although it is a simplified model, it is accurate and realistic enough for the purpose of this report.
 \section{Thermal Effects}
@@ -147,7 +137,7 @@ Equation \ref{eq:temperature} is implemented into model I by using it to update 
 %\end{equation}
 %in which $\alpha$ represents the thermal expansivity of the layer, D represents the thickness of the layer, $\kappa$ the thermal diffusivity, and $\eta$ the viscosity.
 \section{Results, Verification and Validation of Model II}
-The results of model II are summarised in Table \ref{tab:model2results}, and the full profiles are shown in Figure \ref{fig:profile2}. In these graphs, the profiles for the minimum, mean, and maximum temperature are plotted on top of each other. The profiles are so similar to each other, though, that the difference between them is not visible in any of the graphs except for the temperature graph. To validate model II, the resulting graphs were qualitatively compared with graphs found in literature. Comparing model II to the model created by Jin and Ji\cite{jinInternalStructureModels2012} shows that the shape of the plot is very similar to that plotted by Jin and Ji. This becomes more apparent when overlaying the two figures, which is shown in Figure \ref{fig:comparison}. It is interesting to note that although the shapes of the plots are quite similar, the centre pressure obtained by model II is lower than any of Jin and Ji's models by almost 0.5 GPa. Comparing model II to the values given in Table \ref{tab:modelcomparison}, all values roughly match those found in literature.
+The results of model II are summarised in Table \ref{tab:model2results}. To validate model II, the resulting graphs were qualitatively compared with graphs found in literature. Comparing model II to the model created by Jin and Ji\cite{jinInternalStructureModels2012} shows that the shape of the plot is very similar to that plotted by Jin and Ji. It is interesting to note that although the shapes of the plots are quite similar, the centre pressure obtained by model II is lower than any of Jin and Ji's models by almost 0.5 GPa. Comparing model II to the values given in Table \ref{tab:modelcomparison}, all values roughly match those found in literature.
 % Please add the following required packages to your document preamble:
 % \usepackage{graphicx}
 \begin{table}[]
@@ -157,13 +147,13 @@ The results of model II are summarised in Table \ref{tab:model2results}, and the
 		\begin{tabular}{|l|l|l|l|}
 			\hline
 			& \textbf{Min}    & \textbf{Mean}   & \textbf{Max}    \\ \hline
-			\textbf{Mass deviation}             & 0.932\% & 0.779\% & 0.928  \\ \hline
-			\textbf{Centre pressure [GPa]}      & 5.11   & 5.11   & 5.10   \\ \hline
-			\textbf{Gravity at surface [m/$s^2$]} & 1.32   & 1.32   & 1.32   \\ \hline
-			\textbf{Core radius [km]}           & 690    & 799    & 711    \\ \hline
-			\textbf{Shell thickness [km]}       & 117    & 164    & 114    \\ \hline
-			\textbf{MOI deviation}          & 0.0286\% & 0.0934\% & 0.0282\% \\ \hline
-			\textbf{Iterations}                 & 132    & 1      & 125    \\ \hline
+			\textbf{Mass deviation}             & 0.976\% & 0.941\% & 0.956\%  \\ \hline
+			\textbf{Centre pressure [GPa]}      & 4.923   & 4.921   & 4.921   \\ \hline
+			\textbf{Gravity at surface [m/$s^2$]} & 1.294   & 1.295   & 1.295   \\ \hline
+			\textbf{Core radius [km]}           & 654    & 666    & 677    \\ \hline
+			\textbf{Shell thickness [km]}       & 125    & 123    & 120    \\ \hline
+			\textbf{MOI deviation}          & 0.0356\% & 0.0350\% & 0.0256\% \\ \hline
+			\textbf{Iterations}                 & 54    & 66      & 77    \\ \hline
 		\end{tabular}%
 	}
 \end{table}
@@ -173,25 +163,43 @@ The results of model II are summarised in Table \ref{tab:model2results}, and the
 	\caption{The interior pressure of Europa as determined by Jin and Ji\cite{jinInternalStructureModels2012}.}
 	\label{fig:jinjipressure}
 \end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\columnwidth]{comparison.png}
-	\caption{Figure \ref{fig:jinjipressure} rotated, mirrored, and overlaid on top of the pressure graph from Figure \ref{fig:profile2}.}
-	\label{fig:comparison}
-\end{figure}
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=\columnwidth]{comparison.png}
+%	\caption{Figure \ref{fig:jinjipressure} rotated, mirrored, and overlaid on top of the pressure graph from Figure \ref{fig:profile2}.}
+%	\label{fig:comparison}
+%\end{figure}
 %\begin{figure*}[h]
 %	\centering
 %	\includegraphics[width=\textwidth]{profile2.png}
 %	\caption{The pressure, mass, density, and gravitational acceleration of model II, plotted as a function of the radius.}
 %	\label{fig:profile2}
 %\end{figure*}
-\section{Results, Verification, and Validation of Model III}
+\section{Results and Discussion of Model III}
 \label{sec:model3}
-Model III makes use of the Burnman module available for Python and was created by modifying the file ``tutorial\_03\_layers\_and\_planets.ipynb" included in the Burnman installation. The Burnman module includes a mineral library, but it is somewhat limited. Thus, for model III, slightly different materials were chosen than for models I and II: the core is assumed to be pure iron rather than iron(II)sulfide, the mantle is assumed to consist of Olivine, and the outer shell is assumed to be entirely liquid water. For each layer, the temperature mode is set to ``adiabetic", and the pressure mode is set to ``self-sufficient". The initial values for pressure, temperature, and gravity are taken from the results of model II (at the mean core temperature). The results of this model, as well as a  comparison to models I and II, are shown in Figure \ref{fig:123comp}.
+Model III makes use of the Burnman module available for Python and was created by modifying the file ``tutorial\_03\_layers\_and\_planets.ipynb" included in the Burnman installation. The Burnman module includes a mineral library, but it is somewhat limited. Thus, for model III, slightly different materials were chosen than for models I and II: the core is assumed to be pure iron rather than iron(II)sulfide, the mantle is assumed to consist of Olivine, and the outer shell is assumed to be entirely liquid water. For each layer, the same linear temperature variation is used as in model II, and the pressure mode is set to ``self-sufficient". The initial values for pressure and gravity are taken from the results of model II (at the mean core temperature), and so are the layer thicknesses. The results of this model, as well as a comparison to models I and II, are shown in Figure \ref{fig:123comp}. An overview of some key parameters computed by model III are shown in Table \ref{tab:model3results}.
+\begin{table}[h!]
+	\caption{The results of model III for the minimum core temperature, mean core temperature, and maximum core temperature.}
+	\label{tab:model3results}
+	\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			& \textbf{Min}    & \textbf{Mean}   & \textbf{Max}    \\ \hline
+			\textbf{Mass deviation}             & 16.23\% & 16.58\% & 17.07\%  \\ \hline
+			\textbf{MOI deviation}          & 0.0286\% & 0.0934\% & 0.0282\% \\ \hline
+			\textbf{Iterations}                 & 5    & 5      & 5    \\ \hline
+		\end{tabular}%
+	}
+\end{table}
+\begin{figure*}
+	\centering
+	\includegraphics[width=\textwidth]{model12mean3comp.png}
+	\caption{The density, pressure, gravity, and temperature profiles of Europa as calculated by the 3 different models.}
+	\label{fig:123comp}
+\end{figure*}
 
-\section{Comparison between models}
-When viewing Figure \ref{fig:123comp}, a few things immediately stand out. Firstly, while models I and II match almost perfectly, model III consistently computes higher values for density, pressure, and gravity. One way this could be explained is the difference in assumed layer compositions. Especially in the core, the figure shows the density found in model III is over 25\% higher than that for models I and II. This makes sense when considering that the core is assumed to consist of iron (II) sulfide (FeS) in models I and II and of pure iron (Fe) in model III. By comparing the atomic weights of iron and sulfur it logically follows that pure iron would have a higher density. Since gravity and pressure are both functions of density, this difference, along with the smaller but still significant differences in mantle and shell density, can account for the differences in gravity and pressure found.\\
-Another aspect that stands out is the differences in temperature. In model II, the temperature is assumed to vary linearly with radius, while in model III, the temperature of each layer is assumed to be adiabetic. 
+\section{Comparison Between Models}
+When viewing Figure \ref{fig:123comp}, one difference between the models immediately stands out. While models I and II match almost perfectly, model III consistently computes higher values for density, pressure, and gravity. One way this could be explained is the difference in assumed layer compositions. In the core, the figure shows the density found in model III is over 25\% higher than that for models I and II. This makes sense when considering that the core is assumed to consist of iron (II) sulfide (FeS) in models I and II and of pure iron (Fe) in model III. By comparing the atomic weights of iron and sulfur it logically follows that pure iron would have a higher density. Since gravity and pressure are both functions of density, this difference, along with the smaller but still significant differences in mantle and shell density, can account for the differences in gravity and pressure found.\\
 
 
 %\section{Comparison between models I, II, and III}
