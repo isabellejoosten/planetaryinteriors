@@ -24,27 +24,31 @@ for coreRadius in layerBoundaries[1:]:
     for iteration in coreRadius[1:]:
         simcount += 1
         print("Starting simulation ", simcount)
-
-        if iteration[0] < iteration[1] and iteration[0] + iteration[1] <= params.rtotal:
-            # Set mantle, core, and crust (ocean) densities
-            rho = functions.set_density(rho, r, iteration[0], iteration[1])
-            results = functions.iterate(M, g, p, r, rho, iteration[0], iteration[1], simcount)
-            listOfDicts.append(results)
-            results_sameCore = np.concatenate((results_sameCore, np.array([abs(results['massDeviation']*results["MOIdeviation"])])))
-        else:
-            print("Invalid combination of radii skipped")
-            results_sameCore = np.concatenate((results_sameCore, np.array([0.1])))
+        # Set mantle, core, and crust (ocean) densities
+        rho = functions.set_density(rho, r, iteration[0], iteration[1])
+        results = functions.iterate(M, g, p, r, rho, iteration[0], iteration[1], simcount)
+        listOfDicts.append(results)
+        results_sameCore = np.concatenate((results_sameCore, np.array([abs(results['massDeviation'])*abs(results['MOIdeviation'])])))
     results_all = np.concatenate((results_all, [results_sameCore]))
-print(results_all)
+#print(results_all)
 
+cores = []
+maxmantle = []
+for i in range(len(listOfDicts)):
+    cores.append(listOfDicts[i]['coreBound'])
+    maxmantle.append(params.rtotal - listOfDicts[i]['coreBound'])
 
 fig, ax = plt.subplots()
-im = ax.imshow(results_all)
+ax.fill_between(cores, cores, color='black')
+im = ax.imshow(results_all, origin='lower', extent=[0, layerBoundaries[-1][-1][0], 0, layerBoundaries[-1][-1][1]], interpolation='bilinear')
 
 # Show all ticks and label them with the respective list entries
-#ax.set_xticks(range(0, len(coreRadii), 10*params.delta_r), labels=coreRadii,
-#              rotation=45, ha="right", rotation_mode="anchor")
-#ax.set_yticks(range(len(mantleRadii)), labels=mantleRadii)
+startx, stopx = ax.get_xlim()
+starty, stopy = ax.get_ylim()
+ax.set_xticks(np.arange(startx, stopx, 200000))
+ax.set_yticks(np.arange(starty, stopy, 200000))
+ax.set_xlabel('Core radius')
+ax.set_ylabel('Mantle outer radius')
 
 cbar = ax.figure.colorbar(im, ax=ax)
 cbar.ax.set_ylabel('Deviation', rotation=-90, va="bottom")
@@ -56,7 +60,7 @@ cbar.ax.set_ylabel('Deviation', rotation=-90, va="bottom")
 #                       ha="center", va="center", color="w")
 
 ax.set_title("Mass and MOI deviation as a function of core radius and mantle outer radius")
-fig.tight_layout()
+#fig.tight_layout()
 plt.show()
 
 
