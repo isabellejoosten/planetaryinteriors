@@ -1,5 +1,5 @@
-from burnman import Mineral, PerplexMaterial, Composite, Layer, Planet
-from burnman import minerals
+import numpy as np
+import functions
 
-material = minerals.SE_2015.bcc_iron()
-print(material.params)
+array = functions.create_layerheights()
+print(array)

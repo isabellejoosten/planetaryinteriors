@@ -1,0 +1,44 @@
+    while abs((inertia-params.inertia_observed)/params.inertia_observed*100) > 1.0 or abs((M[-1]-params.M_observed)/params.M_observed*100) > 1.0:
+
+    # Plot pressure, mass, density, and gravity as a function of radius.   
+fig, axs = plt.subplots(1, 4, sharey=True, layout='constrained')
+
+ax = axs[0]
+ax.plot(p/1000000000,r/1000)
+ax.set_xlabel('Pressure [GPa]')
+ax.set_ylabel('Radius [m]')
+
+ax = axs[1]
+ax.plot(M/10000000000000000000,r/1000)
+ax.set_xlabel('Mass [1000 kg]')
+
+ax = axs[2]
+ax.plot(rho, r/1000)
+ax.set_xlabel('Density [kg/m^3]')
+
+ax = axs[3]
+ax.plot(g,r/1000)
+ax.set_xlabel('Gravity [m/s^2]')
+
+plt.show()
+plt.clf()
+
+# Print final results
+print('\n---SIMULATION COMPLETE---')
+print("Total mass: ", M[-1], " kg")
+print("Mass deviation: ", (M[-1]-params.M_observed)/params.M_observed*100, "percent of observed mass")
+print("Center pressure: ", p[0]/1000000000, " GPa")
+print("Gravitational acceleration at surface: ", g[-1], " m/s^2")
+
+# I honestly don't remember what this is for
+for i in range(len(r)):
+    if r[i] <= core_boundary and r[i+1] > core_boundary: 
+        print("Gravitational acceleration at core-mantle boundary: ", g[i], " m/s^2")
+    elif r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
+        print("Gravitational acceleration at mantle-shell boundary: ", g[i], " m/s^2")
+
+# More final results
+print("Core radius: ", core_boundary/1000, " km")
+print("Crust thickness: ", (params.rtotal-mantle_boundary)/1000, " km")
+print("Moment of inertia: ", inertia)
+print("Number of simulations ran: ", simcount)
