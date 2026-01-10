@@ -143,13 +143,12 @@ def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary
 
 def create_layerheights():
     r = np.arange(0, params.rtotal + params.delta_r, params.delta_r)
-    bounds3 = np.empty(0)
+    bounds3 = np.empty([1, len(r)+1, 2])
     for i in r:
-        bounds2 = np.empty([0, 2])
+        bounds2 = np.empty([1, 2])
         for j in r:
-            if i <= j and i + j <= params.rtotal:
-                bounds = np.ndarray([[i, j]], dtype=float)
-                bounds2 = np.append(bounds2, bounds)
-        bounds3 = np.append(bounds3, bounds2)
+            bounds = np.array([i, j], dtype=float)
+            bounds2 = np.concatenate((bounds2, [bounds]))
+        bounds3 = np.concatenate((bounds3, [bounds2]))
     
     return bounds3
