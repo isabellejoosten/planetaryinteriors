@@ -1,5 +1,5 @@
 rtotal = 1565.0e3                       # radius in [m]
-delta_r = 10000.0                        # step size in [m]
+delta_r = 100000.0                        # step size in [m]
 M_observed = 479.7e20                   # mass of Europa in [kg]
 inertia_observed = 0.346                # observed moment of inertia taken from the planetary database
 G = 6.67430e-11                         # gravitational constant

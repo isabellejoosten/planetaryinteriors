@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import functions
 import params
+import statistics
+import pandas as pd
+import seaborn as sb
 
 # Setting up arrays
 results = []
@@ -16,28 +19,33 @@ coreRadii = np.arange(0, params.rtotal + params.delta_r, params.delta_r)
 mantleRadii = np.arange(0, params.rtotal + params.delta_r, params.delta_r)
 
 # Start iteration
-#while abs((inertia-params.inertia_observed)/params.inertia_observed*100) > 1.0 or abs((M[-1]-params.M_observed)/params.M_observed*100) > 1.0: # continue iterating as long as moment of inertia or total mass deviate by more than 1% from observations
-listOfDicts = []
-results_all = np.empty((0, len(layerBoundaries[0])-1))
+dataframes = []
 for coreRadius in layerBoundaries[1:]:
-    results_sameCore = np.empty((0))
     for iteration in coreRadius[1:]:
         simcount += 1
-        print("Starting simulation ", simcount)
-        # Set mantle, core, and crust (ocean) densities
-        rho = functions.set_density(rho, r, iteration[0], iteration[1])
-        results = functions.iterate(M, g, p, r, rho, iteration[0], iteration[1], simcount)
-        listOfDicts.append(results)
-        results_sameCore = np.concatenate((results_sameCore, np.array([abs(results['massDeviation'])*abs(results['MOIdeviation'])])))
-    results_all = np.concatenate((results_all, [results_sameCore]))
-#print(results_all)
+        #print("Starting simulation ", simcount)
+        if iteration[0] > iteration[1]:
+            results = pd.DataFrame({'MOI':np.nan, 'coreBound':iteration[0], 'mantleBound':iteration[1], 'massDeviation':np.nan, 'MOIdeviation':np.nan}, index=[simcount])
+        else:
+            # Set mantle, core, and crust (ocean) densities
+            rho = functions.set_density(rho, r, iteration[0], iteration[1])
+            results = functions.iterate(M, g, p, r, rho, iteration[0], iteration[1], simcount)
+        dataframes.append(results)
 
+data = pd.concat(dataframes)
+print(data['massDeviation'].std())
+
+
+
+'''
 cores = []
 maxmantle = []
 for i in range(len(listOfDicts)):
     cores.append(listOfDicts[i]['coreBound'])
     maxmantle.append(params.rtotal - listOfDicts[i]['coreBound'])
+'''
 
+'''
 fig, ax = plt.subplots()
 ax.fill_between(cores, cores, color='black')
 im = ax.imshow(results_all, origin='lower', extent=[0, layerBoundaries[-1][-1][0], 0, layerBoundaries[-1][-1][1]], interpolation='bilinear')
@@ -62,5 +70,5 @@ cbar.ax.set_ylabel('Deviation', rotation=-90, va="bottom")
 ax.set_title("Mass and MOI deviation as a function of core radius and mantle outer radius")
 #fig.tight_layout()
 plt.show()
-
+'''
 

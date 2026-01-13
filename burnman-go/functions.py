@@ -2,6 +2,7 @@ import params
 import numpy as np
 import matplotlib.pyplot as plt
 import functions
+import pandas as pd
 
 def Pressure(p, rho, g):
     '''Performs a simple numerical integration for the pressure at each radius increment.'''
@@ -103,8 +104,9 @@ def iterate(M, g, p, r, rho, core_boundary, mantle_boundary, simcount):
 
         #print('Residual moment of inertia: ', abs((inertia-params.inertia_observed)/params.inertia_observed*100), ' percent')
         #print('Residual mass: ', abs((M[-1]-params.M_observed)/params.M_observed*100), ' percent')
-    dict = {'massProfile':M, 'gravityProfile':g, 'pressureProfile':p, 'densityProfile':rho, 'MOI':inertia, 'coreBound':core_boundary, 'mantleBound':mantle_boundary, 'massDeviation':(M[-1]-params.M_observed)/params.M_observed, 'MOIdeviation':(inertia-params.inertia_observed)/params.inertia_observed, 'simcount':simcount}
-    return dict
+    result = pd.DataFrame({'MOI':inertia, 'coreBound':core_boundary, 'mantleBound':mantle_boundary, 'massDeviation':(M[-1]-params.M_observed)/params.M_observed, 'MOIdeviation':(inertia-params.inertia_observed)/params.inertia_observed}, index=[simcount])
+    #dict = {'massProfile':M, 'gravityProfile':g, 'pressureProfile':p, 'densityProfile':rho, 'MOI':inertia, 'coreBound':core_boundary, 'mantleBound':mantle_boundary, 'massDeviation':(M[-1]-params.M_observed)/params.M_observed, 'MOIdeviation':(inertia-params.inertia_observed)/params.inertia_observed, 'simcount':simcount}
+    return result
 
 def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary):
     for i in range(0, len(r)-1):
