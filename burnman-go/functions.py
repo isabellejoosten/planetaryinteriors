@@ -48,13 +48,6 @@ def create_arrays():
     '''Sets up all arrays needed to perform the integrations for the 1D model. Returns arrays of zeros for mass, pressure, and gravity. Returns an array of evenly spaced radii, and an array of densities based on the core and mantle boundaries specified in params.py.'''
     r = np.arange(0, params.rtotal + params.delta_r, params.delta_r)
     rho = np.zeros(len(r))
-    for i in range(len(r)): # I think I'm doing this twice, could probably remove this loop
-        if r[i] <= params.core_boundary:
-            rho[i] = 5500.0
-        elif params.core_boundary < r[i] and r[i] <= params.mantle_boundary:
-            rho[i] = 3300.0
-        else:
-            rho[i] = 1000.0
     M = np.zeros(len(r))
     p = np.zeros(len(r))
     g = np.zeros(len(r))
