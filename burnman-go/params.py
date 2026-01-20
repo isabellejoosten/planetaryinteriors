@@ -1,10 +1,13 @@
 rtotal = 1560.0e3                       # radius in [m]
 delta_r = 1000.0                        # step size in [m]
 M_observed = 479.7e20                   # mass of Europa in [kg]
+M_uncertainty = 1.5e20                  # kg
 inertia_observed = 0.346                # observed moment of inertia taken from the planetary database
+inertia_uncertainty = 0.005     
 meanDensity_observed = 3013.0           # kg/m3
+meanDensity_uncertainty = 1.7           # kg/m3
 G = 6.67430e-11                         # gravitational constant
-core_boundary = 600.0e3                 # initial core radius in [m]
+core_boundary = 699.0e3                 # initial core radius in [m]
 mantle_boundary = 1400.0e3              # initial distance from center to mantle-crust/ocean boundary in [m]
 ocean_boundary = 0                      # initial distance from centre to ocean-shell boundary in [m]
 core_temp_min = 1073.0                  # minimum centre temperature in [K]
