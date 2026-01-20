@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.1)  28 NOV 2025 16:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.1)  13 JAN 2026 13:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -187,9 +187,6 @@ hys /
 
 [2]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 119.
 
@@ -210,7 +207,10 @@ File: model12mean3comp.png Graphic file (type png)
 <use model12mean3comp.png>
 Package pdftex.def Info: model12mean3comp.png  used on input line 196.
 (pdftex.def)             Requested size: 513.11745pt x 284.61575pt.
-[3]
+
+Underfull \vbox (badness 2573) has occurred while \output is active []
+
+ [3]
 Underfull \hbox (badness 1210) in paragraph at lines 202--203
 \OT1/cmr/m/n/10 When view-ing Fig-ure 2[], one dif-fer-ence be-tween the
  []
@@ -219,10 +219,6 @@ Underfull \hbox (badness 1210) in paragraph at lines 202--203
 Underfull \hbox (badness 10000) in paragraph at lines 202--203
 
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 (template_Article.bbl [4 <./jinjipressure.png>]) [5 <./model12mean3comp.png>]
 (template_Article.aux)
@@ -234,7 +230,7 @@ L3 programming layer <2024-01-04>
 Here is how much of TeX's memory you used:
  2014 strings out of 474486
  33888 string characters out of 5743756
- 1952542 words of memory out of 5000000
+ 1953542 words of memory out of 5000000
  24314 multiletter control sequences out of 15000+600000
  562866 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -257,7 +253,7 @@ lic/amsfonts/cm/cmsy10.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Isabe/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on template_Article.pdf (5 pages, 381979 bytes).
+Output written on template_Article.pdf (5 pages, 381291 bytes).
 PDF statistics:
  103 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

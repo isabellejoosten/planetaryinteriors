@@ -12,6 +12,13 @@ T_mean = functions.create_temp_array('mean', r_mean)
 T_max = functions.create_temp_array('max', r_max)
 
 M_min, g_min, p_min, r_min, rho_min, T_min, core_boundary_min, mantle_boundary_min, inertia_min, simcount_min, core_mantle_boundary_gravity_min, mantle_shell_boundary_gravity_min, core_mantle_boundary_temp_min, mantle_shell_boundary_temp_min, core_mantle_boundary_pressure_min, mantle_shell_boundary_pressure_min = functions.iterate(M_min, g_min, p_min, r_min, rho_min, T_min)
+coreVolume_min = functions.sphereVolume(core_boundary_min)
+mantleVolume_min = functions.sphereShellVolume(core_boundary_min, mantle_boundary_min)
+shellVolume_min = functions.sphereShellVolume(mantle_boundary_min, params.rtotal)
+totalVolume_min = functions.sphereVolume(params.rtotal)
+
+meanDensity_min = (coreVolume_min*5500.0+mantleVolume_min*3300.0+shellVolume_min*1000.0)/totalVolume_min
+
 print('\n---SIMULATION COMPLETE - MIN TEMP---')
 print("Total mass: ", M_min[-1], " kg")
 print("Mass deviation: ", (M_min[-1]-params.M_observed)/params.M_observed*100, "percent of observed mass")
@@ -27,10 +34,22 @@ print("Core radius: ", core_boundary_min/1000, " km")
 print("Crust thickness: ", (params.rtotal-mantle_boundary_min)/1000, " km")
 print("Moment of inertia: ", inertia_min)
 print("Moment of inertia deviation: ", abs((inertia_min-params.inertia_observed)/params.inertia_observed*100))
+print("Mean density: ", meanDensity_min, " kg/m^3")
+print("Mean density deviation: ", abs(meanDensity_min-params.meanDensity_observed), " kg/m^3")
 print("Number of simulations ran: ", simcount_min)
 
 M_mean, g_mean, p_mean, r_mean, rho_mean, T_mean, core_boundary_mean, mantle_boundary_mean, inertia_mean, simcount_mean, core_mantle_boundary_gravity_mean, mantle_shell_boundary_gravity_mean, core_mantle_boundary_temp_mean, mantle_shell_boundary_temp_mean, core_mantle_boundary_pressure_mean, mantle_shell_boundary_pressure_mean = functions.iterate(M_mean, g_mean, p_mean, r_mean, rho_mean, T_mean)
+# finding the mean density:
+coreVolume_mean = functions.sphereVolume(core_boundary_mean)
+mantleVolume_mean = functions.sphereShellVolume(core_boundary_mean, mantle_boundary_mean)
+shellVolume_mean = functions.sphereShellVolume(mantle_boundary_mean, params.rtotal)
+totalVolume_mean = functions.sphereVolume(params.rtotal)
+
+meanDensity = (coreVolume_mean*5500.0+mantleVolume_mean*3300.0+shellVolume_mean*1000.0)/totalVolume_mean
+
 print('\n---SIMULATION COMPLETE - MEAN TEMP---')
+
+meanDensity = (coreVolume_mean*5500.0+mantleVolume_mean*3300.0+shellVolume_mean*1000.0)/totalVolume_mean
 print("Total mass: ", M_mean[-1], " kg")
 print("Mass deviation: ", (M_mean[-1]-params.M_observed)/params.M_observed*100, "percent of observed mass")
 print("Center pressure: ", p_mean[0]/1000000000, " GPa")
@@ -45,9 +64,15 @@ print("Core radius: ", core_boundary_mean/1000, " km")
 print("Crust thickness: ", (params.rtotal-mantle_boundary_mean)/1000, " km")
 print("Moment of inertia: ", inertia_mean)
 print("Moment of inertia deviation: ", abs((inertia_mean-params.inertia_observed)/params.inertia_observed*100))
+print("Mean density: ", meanDensity, " kg/m^3")
+print("Mean density deviation: ", abs(meanDensity-params.meanDensity_observed), " kg/m^3")
 print("Number of simulations ran: ", simcount_mean)
 
 M_max, g_max, p_max, r_max, rho_max, T_max, core_boundary_max, mantle_boundary_max, inertia_max, simcount_max, core_mantle_boundary_gravity_max, mantle_shell_boundary_gravity_max, core_mantle_boundary_temp_max, mantle_shell_boundary_temp_max, core_mantle_boundary_pressure_max, mantle_shell_boundary_pressure_max = functions.iterate(M_max, g_max, p_max, r_max, rho_max, T_max)
+coreVolume_max = functions.sphereVolume(core_boundary_max)
+mantleVolume_max = functions.sphereShellVolume(core_boundary_max, mantle_boundary_max)
+shellVolume_max = functions.sphereShellVolume(mantle_boundary_max, params.rtotal)
+totalVolume_max = functions.sphereVolume(params.rtotal)
 print('\n---SIMULATION COMPLETE - MAX TEMP---')
 print("Total mass: ", M_max[-1], " kg")
 print("Mass deviation: ", (M_max[-1]-params.M_observed)/params.M_observed*100, "percent of observed mass")
@@ -63,6 +88,8 @@ print("Core radius: ", core_boundary_max/1000, " km")
 print("Crust thickness: ", (params.rtotal-mantle_boundary_max)/1000, " km")
 print("Moment of inertia: ", inertia_max)
 print("Moment of inertia deviation: ", abs((inertia_max-params.inertia_observed)/params.inertia_observed*100))
+print("Mean density: ", meanDensity, " kg/m^3")
+print("Mean density deviation: ", abs(meanDensity-params.meanDensity_observed), " kg/m^3")
 print("Number of simulations ran: ", simcount_max)
 
 fig, axs = plt.subplots(1, 5, sharey=True, layout='constrained')   
