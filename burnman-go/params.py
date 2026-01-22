@@ -22,6 +22,10 @@ core_K = 75.2e9                         # bulk modulus of the core in [Pa]
 mantle_K = 130.0e9                      # bulk modulus of the mantle in [Pa]
 shell_K = 1.056e10                      # bulk modulus of the shell/ocean in [Pa]
 ice_K = 0                               # bulk modulus of the ice crust in [Pa]
+density_core_FeS = 5500.0
+density_core_Fe = 7874.0
+density_mantle = 3300.0
+density_shell = 1000.0
 
 # EARTH VALUES FOR VALIDATION
 rtotal_Earth = 6378.0e3

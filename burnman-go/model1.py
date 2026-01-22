@@ -5,7 +5,7 @@ import params
 import random
 
 # Setting up arrays
-M, g, p, r, rho = functions.create_arrays()
+M, g, p, r, rho = functions.create_arrays(params.rtotal)
 
 # Setting the initial core and mantle boundaries. Can be changed by editing params.py
 core_boundary = params.core_boundary

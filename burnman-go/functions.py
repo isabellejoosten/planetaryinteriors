@@ -83,41 +83,36 @@ def create_temp_array(Ttype, r):
         T = np.flip(np.arange(params.surface_temp, params.core_temp_max-1, (params.core_temp_max-params.surface_temp)/len(r)))
     return T
 
+def recalculateDensity(r, rho, p, T, core_boundary, mantle_boundary):
+    for i in range(len(r)):
+        if r[i] <= core_boundary:
+            rho[i] = 5500.0*(1 - params.core_alpha*(abs(T[0] - T[i]))+(abs(p[0] - p[i]))/params.core_K)
+            if r[i] <= core_boundary and r[i+1] > core_boundary:
+                core_mantle_boundary_temp = T[i]
+                core_mantle_boundary_pressure = p[i]
+        elif core_boundary < r[i] and r[i] <= mantle_boundary:
+            rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp - T[i])) + (abs(core_mantle_boundary_pressure - p[i]))/params.mantle_K)
+            if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
+                mantle_shell_boundary_temp = T[i]
+                mantle_shell_boundary_pressure = p[i]
+        else:
+            rho[i] = 1000.0*(1 - params.shell_alpha*(abs(mantle_shell_boundary_temp - T[i])) + ((mantle_shell_boundary_pressure - p[i]))/params.shell_K)
+
+    return rho
+
 def iterate(M, g, p, r, rho, T):
     inertia = 0.0
     meanDensity = 0.0
     simcount = 0
     core_boundary = params.core_boundary
     mantle_boundary = params.mantle_boundary
-    core_mantle_boundary_temp = 0
-    mantle_shell_boundary_temp = 0
-    core_mantle_boundary_pressure = 0
-    mantle_shell_boundary_pressure = 0
-    core_mantle_boundary_gravity = 0
-    mantle_shell_boundary_gravity = 0
-    while abs(inertia - params.inertia_observed) > 0.005 or abs(M[-1]-params.M_observed) > 1.5e20 or abs(meanDensity - params.meanDensity_observed) > 1.7:
-        if simcount > 10000:
-            print(f"Iteration ended after {simcount}, no convergence was reached.")
-            break
+    while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs(M[-1] - params.M_observed) > params.M_uncertainty or abs(meanDensity - params.meanDensity_observed) > params.meanDensity_uncertainty:
+        #if simcount > 10000:
+            #print(f"Iteration ended after {simcount}, no convergence was reached.")
+            #break
         simcount += 1
-        if simcount%100 == 0:
+        if simcount%200 == 0:
             print("Starting simulation ", simcount)
-
-        for i in range(len(r)):
-            if r[i] <= core_boundary:
-                rho[i] = 5500.0*(1 - params.core_alpha*(abs(T[0] - T[i]))+(abs(p[0] - p[i]))/params.core_K)
-                if r[i] <= core_boundary and r[i+1] > core_boundary:
-                    core_mantle_boundary_temp = T[i]
-                    core_mantle_boundary_pressure = p[i]
-                    core_mantle_boundary_gravity = g[i]
-            elif core_boundary < r[i] and r[i] <= mantle_boundary:
-                rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp - T[i])) + (abs(core_mantle_boundary_pressure - p[i]))/params.mantle_K)
-                if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
-                    mantle_shell_boundary_temp = T[i]
-                    mantle_shell_boundary_pressure = p[i]
-                    mantle_shell_boundary_gravity = g[i]
-            else:
-                rho[i] = 1000.0*(1 - params.shell_alpha*(abs(mantle_shell_boundary_temp - T[i])) + ((mantle_shell_boundary_pressure - p[i]))/params.shell_K)
 
         for i in range(0, len(r)-1):
             M[i+1] = Mass(M[i], r[i+1], rho[i+1])
@@ -128,38 +123,94 @@ def iterate(M, g, p, r, rho, T):
         for i in np.flip(range(1, len(r))):
             p[i-1] = Pressure(p[i], rho[i], g[i])
 
-        inertia = functions.inertia(r, rho, params.delta_r, M)
-
-        # finding the mean density:
-        coreVolume = functions.sphereVolume(core_boundary)
-        mantleVolume = functions.sphereShellVolume(core_boundary, mantle_boundary)
-        shellVolume = functions.sphereShellVolume(mantle_boundary, params.rtotal)
-        totalVolume = functions.sphereVolume(params.rtotal)
-
-        meanDensity = (coreVolume*5500.0 + mantleVolume*3300.0 + shellVolume*1000.0)/totalVolume
-
-        if simcount%100 == 0:
-            print('Residual moment of inertia: ', abs((inertia - params.inertia_observed)/params.inertia_observed*100), ' percent')
-            print('Residual mass: ', abs((M[-1] - params.M_observed)/params.M_observed*100), ' percent')
-            print('Residual density: ', abs((meanDensity - params.meanDensity_observed)/params.meanDensity_observed*100), ' percent')
-
+        if simcount%200 == 0:
+            print('Residual moment of inertia: ', abs((inertia - params.inertia_observed)/params.inertia_uncertainty))
+            print('Residual mass: ', abs((M[-1] - params.M_observed)/params.M_uncertainty))
+            print('Residual density: ', abs((meanDensity - params.meanDensity_observed)/params.meanDensity_uncertainty))
 
         if M[-1] > params.M_observed:
-            core_boundary -= params.delta_r
+            factor = random.uniform(0.7, 1.3)*abs((M[-1] - params.M_observed)/params.M_uncertainty)
+            #factor = 1
+            dice = random.random()
+            if dice > 0.5:
+                core_boundary -= factor*params.delta_r
+                if core_boundary <= 0:
+                    core_boundary = params.delta_r
+            else:
+                mantle_boundary -= factor*params.delta_r
+                if mantle_boundary < core_boundary:
+                    mantle_boundary = core_boundary + params.delta_r
         elif M[-1] < params.M_observed:
-            core_boundary += params.delta_r
+            factor = random.uniform(0.7, 1.3)*abs((M[-1] - params.M_observed)/params.M_uncertainty)
+            #factor = 1
+            dice = random.random()
+            if dice > 0.5:
+                core_boundary += factor*params.delta_r
+                if core_boundary > mantle_boundary:
+                    core_boundary = mantle_boundary - params.delta_r
+            else:
+                mantle_boundary += factor*params.delta_r
+                if mantle_boundary >= params.rtotal:
+                    mantle_boundary = params.rtotal - params.delta_r
+        
+        for i in range(0, len(r)-1):
+            M[i+1] = Mass(M[i], r[i+1], rho[i+1])
+        inertia = functions.inertia(r, rho, params.delta_r, M)
+
         if inertia > params.inertia_observed:
-            mantle_boundary -= params.delta_r
+            factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertia_uncertainty)
+            #factor = 1
+            dice = random.random()
+            if dice > 0.5:
+                mantle_boundary -= factor*params.delta_r
+                if mantle_boundary < core_boundary:
+                    mantle_boundary = core_boundary + params.delta_r
+            else:
+                core_boundary -= factor*params.delta_r
+                if core_boundary <= 0:
+                    core_boundary = params.delta_r
         elif inertia < params.inertia_observed:
-            mantle_boundary += params.delta_r
+            factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertia_uncertainty)
+            #factor = 1
+            dice = random.random()
+            if dice > 0.5:
+                mantle_boundary += factor*params.delta_r
+                if mantle_boundary >= params.rtotal:
+                    mantle_boundary = params.rtotal - params.delta_r
+            else:
+                core_boundary += factor*params.delta_r
+                if core_boundary > mantle_boundary:
+                    core_boundary = mantle_boundary - params.delta_r
+        
+        rho = recalculateDensity(r, rho, p, T, core_boundary, mantle_boundary)
+        meanDensity = functions.meanDensity(r, rho)
+        
         if meanDensity > params.meanDensity_observed:
-            core_boundary -= params.delta_r
-            mantle_boundary -= params.delta_r
+            factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensity_uncertainty)
+            #factor = 1
+            dice = random.random()
+            if dice > 0.5:
+                core_boundary -= factor*params.delta_r
+                if core_boundary <= 0:
+                    core_boundary = params.delta_r
+            else:
+                mantle_boundary -= factor*params.delta_r
+                if mantle_boundary < core_boundary:
+                    mantle_boundary = core_boundary + params.delta_r
         elif meanDensity < params.meanDensity_observed:
-            core_boundary += params.delta_r
-            mantle_boundary += params.delta_r
+            factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensity_uncertainty)
+            #factor = 1
+            dice = random.random()
+            if dice > 0.5:
+                core_boundary += factor*params.delta_r
+                if core_boundary > mantle_boundary:
+                    core_boundary = mantle_boundary - params.delta_r
+            else:
+                mantle_boundary += factor*params.delta_r
+                if mantle_boundary >= params.rtotal:
+                    mantle_boundary = params.rtotal - params.delta_r
     
-    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount, core_mantle_boundary_gravity, mantle_shell_boundary_gravity, core_mantle_boundary_temp, mantle_shell_boundary_temp, core_mantle_boundary_pressure, mantle_shell_boundary_pressure
+    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount, meanDensity
 
 def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary):
     for i in range(0, len(r)-1):
@@ -204,4 +255,16 @@ def sphereShellVolume(innerRadius, outerRadius):
     outer = sphereVolume(outerRadius)
     inner = sphereVolume(innerRadius)
 
-    return outer-inner
+    return outer - inner
+
+def meanDensity(r, rho):
+    weightedValues = []
+    for i in range(len(r) - 1):
+        shellVolume = sphereShellVolume(r[i], r[i+1])
+        shellDensity = (rho[i] + rho[i+1])/2
+        weightedValues.append(shellVolume*shellDensity)
+    
+    totalVolume = sphereVolume(params.rtotal)
+    meanDensity = sum(weightedValues)/totalVolume
+
+    return meanDensity
