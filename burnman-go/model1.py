@@ -4,7 +4,11 @@ import functions
 import params
 import random
 
-def Model1(core_boundary, mantle_boundary):
+import warnings
+warnings.filterwarnings("error")
+
+
+def Model1(core_boundary, mantle_boundary, verbose=False):
     # Setting up a counter and a moment of inertia variable for the purpose of iterating over different core and mantle boundaries
     simcount = 0
     inertia = 0.0
@@ -16,8 +20,8 @@ def Model1(core_boundary, mantle_boundary):
         M, g, p, r, rho = functions.create_arrays()
         
         simcount += 1
-        if simcount%100 == 0:
-            print("Starting simulation ", simcount)
+        if simcount%250 == 0:
+            print(f"Number of iterations has reached {simcount}...")
     
         # Set mantle, core, and crust (ocean) densities
         for i in range(len(r)):
@@ -41,9 +45,9 @@ def Model1(core_boundary, mantle_boundary):
         # Calculate moment of inertia and compare to observations
         inertia = functions.inertia(r, rho, params.delta_r, M)
 
-        if simcount%100 == 0:
-            print('Residual moment of inertia: ', abs((inertia-params.inertia_observed)/params.inertia_observed*100), ' percent')
-            print('Residual mass: ', abs((M[-1]-params.M_observed)/params.M_observed*100), ' percent')
+        #if simcount%100 == 0:
+        #    print('Residual moment of inertia: ', abs((inertia-params.inertia_observed)/params.inertia_observed*100), ' percent')
+        #    print('Residual mass: ', abs((M[-1]-params.M_observed)/params.M_observed*100), ' percent')
 
         # finding the mean density:
         coreVolume = functions.sphereVolume(core_boundary)
@@ -57,92 +61,100 @@ def Model1(core_boundary, mantle_boundary):
         # Increase the core size if the mass is too small, decrease the core size if the mass is too large.
         # Increase the mantle thickness if the moment of inertia is too small, decrease the mantle thickness if the moment of inertia is too large.
         if M[-1] > params.M_observed:
+            factor = random.uniform(0.7, 1.3)*abs((M[-1] - params.M_observed)/params.massUncertainty)
             dice = random.random()
-            if M[-1] - params.M_observed > 3*params.massUncertainty:
-                delta_r = 3*params.delta_r
+            if dice > 0.5:
+                core_boundary -= factor*params.delta_r
+                if core_boundary <= 0:
+                    core_boundary = params.delta_r
             else:
-                delta_r = params.delta_r
-            if dice >= 0.5:
-                core_boundary -= delta_r
-            else:
-                mantle_boundary -= delta_r
+                mantle_boundary -= factor*params.delta_r
+                if mantle_boundary < core_boundary:
+                    mantle_boundary = core_boundary + params.delta_r
         elif M[-1] < params.M_observed:
+            factor = random.uniform(0.7, 1.3)*abs((M[-1] - params.M_observed)/params.massUncertainty)
             dice = random.random()
-            if params.M_observed - M[-1] > 3*params.massUncertainty:
-                delta_r = 3*params.delta_r
+            if dice > 0.5:
+                core_boundary += factor*params.delta_r
+                if core_boundary > mantle_boundary:
+                    core_boundary = mantle_boundary - params.delta_r
             else:
-                delta_r = params.delta_r
-            if dice >= 0.5:
-                core_boundary += delta_r
-            else:
-                mantle_boundary += delta_r
+                mantle_boundary += factor*params.delta_r
+                if mantle_boundary >= params.rtotal:
+                    mantle_boundary = params.rtotal - params.delta_r
         if inertia > params.inertia_observed:
+            factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertiaUncertainty)
             dice = random.random()
-            if inertia - params.inertia_observed > 3*params.inertiaUncertainty:
-                delta_r = 3*params.delta_r
+            if dice > 0.5:
+                mantle_boundary -= factor*params.delta_r
+                if mantle_boundary < core_boundary:
+                    mantle_boundary = core_boundary + params.delta_r
             else:
-                delta_r = params.delta_r
-            if dice >= 0.5:
-                mantle_boundary -= delta_r
-            else:
-                core_boundary -= delta_r
+                core_boundary -= factor*params.delta_r
+                if core_boundary <= 0:
+                    core_boundary = params.delta_r
         elif inertia < params.inertia_observed:
+            factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertiaUncertainty)
             dice = random.random()
-            if params.inertia_observed - inertia > 3*params.inertiaUncertainty:
-                delta_r = 3*params.delta_r
+            if dice > 0.5:
+                mantle_boundary += factor*params.delta_r
+                if mantle_boundary >= params.rtotal:
+                    mantle_boundary = params.rtotal - params.delta_r
             else:
-                delta_r = params.delta_r
-            if dice >= 0.5:
-                mantle_boundary += delta_r
-            else:
-                core_boundary += delta_r
+                core_boundary += factor*params.delta_r
+                if core_boundary > mantle_boundary:
+                    core_boundary = mantle_boundary - params.delta_r
         if meanDensity > params.meanDensity_observed:
+            factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensityUncertainty)
             dice = random.random()
-            if meanDensity - params.meanDensity_observed > 3*params.meanDensityUncertainty:
-                delta_r = 3*params.delta_r
+            if dice > 0.5:
+                core_boundary -= factor*params.delta_r
+                if core_boundary <= 0:
+                    core_boundary = params.delta_r
             else:
-                delta_r = params.delta_r
-            if dice >= 0.5:
-                core_boundary -= delta_r
-            else:
-                mantle_boundary -= delta_r
+                mantle_boundary -= factor*params.delta_r
+                if mantle_boundary < core_boundary:
+                    mantle_boundary = core_boundary + params.delta_r
         elif meanDensity < params.meanDensity_observed:
+            factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensityUncertainty)
             dice = random.random()
-            if params.meanDensity_observed - meanDensity > 3*params.meanDensityUncertainty:
-                delta_r = 3*params.delta_r
+            if dice > 0.5:
+                core_boundary += factor*params.delta_r
+                if core_boundary > mantle_boundary:
+                    core_boundary = mantle_boundary - params.delta_r
             else:
-                delta_r = params.delta_r
-            if dice >= 0.5:
-                core_boundary += delta_r
-            else:
-                mantle_boundary += delta_r
+                mantle_boundary += factor*params.delta_r
+                if mantle_boundary >= params.rtotal:
+                    mantle_boundary = params.rtotal - params.delta_r
+    
+    if verbose == True:
+        # Print final results
+        print('\n------ SIMULATION COMPLETE ------')
+        print("Number of iterations: ", simcount)
 
-    # Print final results
-    print('\n------ SIMULATION COMPLETE ------')
-    print("Number of iterations: ", simcount)
+        print("\n--- COMPARISON TO OBSERVED VALUES ---")
+        print("Total mass: ", f"{M[-1]:.3e} kg")
+        print("Observed mass: ", params.M_observed, " plus/minus 1.5*10^20 kg")
+        print("Mass deviation from observed value: ", f"{abs(M[-1] - params.M_observed):.3e} kg")
 
-    print("\n--- COMPARISON TO OBSERVED VALUES ---")
-    print("Total mass: ", f"{M[-1]:.3e} kg")
-    print("Observed mass: ", params.M_observed, " plus/minus 1.5*10^20 kg")
-    print("Mass deviation from observed value: ", f"{abs(M[-1] - params.M_observed):.3e} kg")
+        print("\nMoment of inertia factor: ", round(inertia, 3))
+        print("Observed moment of inertia factor: ", params.inertia_observed, " plus/minus 0.005")
+        print("Moment of inertia factor deviation from observed value: ", round(abs(inertia - params.inertia_observed), 4))
 
-    print("\nMoment of inertia factor: ", round(inertia, 3))
-    print("Observed moment of inertia factor: ", params.inertia_observed, " plus/minus 0.005")
-    print("Moment of inertia factor deviation from observed value: ", round(abs(inertia - params.inertia_observed), 4))
+        print("\nMean density: ", round(meanDensity, 1), " kg/m^3")
+        print("Observed mean density: ", params.meanDensity_observed, " plus/minus 1.7 kg/m^3")
+        print("Mean density deviation from observed value: ", round(abs(meanDensity - params.meanDensity_observed), 1), " kg/m^3")
 
-    print("\nMean density: ", round(meanDensity, 1), " kg/m^3")
-    print("Observed mean density: ", params.meanDensity_observed, " plus/minus 1.7 kg/m^3")
-    print("Mean density deviation from observed value: ", round(abs(meanDensity - params.meanDensity_observed), 1), " kg/m^3")
+        print("\n--- CALCULATED VALUES ---")
+        print("Center pressure: ", p[0]/1000000000, " GPa")
+        print("Gravitational acceleration at surface: ", g[-1], " m/s^2")
 
-    print("\n--- CALCULATED VALUES ---")
-    print("Center pressure: ", p[0]/1000000000, " GPa")
-    print("Gravitational acceleration at surface: ", g[-1], " m/s^2")
-
-    print("\n--- INTERNAL COMPOSITION ---")
-    print("Core radius: ", core_boundary/1000, " km")
-    print("Mantle thickness: ", (mantle_boundary - core_boundary)/1000, " km")
-    print("Crust thickness: ", (params.rtotal-mantle_boundary)/1000, " km")
-
+        print("\n--- INTERNAL COMPOSITION ---")
+        print("Core radius: ", core_boundary/1000, " km")
+        print("Mantle thickness: ", (mantle_boundary - core_boundary)/1000, " km")
+        print("Crust thickness: ", (params.rtotal-mantle_boundary)/1000, " km")
+    
+    print("Convergence reached")
     return core_boundary, mantle_boundary
 
 
