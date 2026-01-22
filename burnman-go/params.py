@@ -7,7 +7,7 @@ inertia_uncertainty = 0.005
 meanDensity_observed = 3013.0           # kg/m3
 meanDensity_uncertainty = 1.7           # kg/m3
 G = 6.67430e-11                         # gravitational constant
-core_boundary = 699.0e3                 # initial core radius in [m]
+core_boundary = 700.0e3                 # initial core radius in [m]
 mantle_boundary = 1400.0e3              # initial distance from center to mantle-crust/ocean boundary in [m]
 ocean_boundary = 0                      # initial distance from centre to ocean-shell boundary in [m]
 core_temp_min = 1073.0                  # minimum centre temperature in [K]
@@ -22,3 +22,14 @@ core_K = 75.2e9                         # bulk modulus of the core in [Pa]
 mantle_K = 130.0e9                      # bulk modulus of the mantle in [Pa]
 shell_K = 1.056e10                      # bulk modulus of the shell/ocean in [Pa]
 ice_K = 0                               # bulk modulus of the ice crust in [Pa]
+
+# EARTH VALUES FOR VALIDATION
+rtotal_Earth = 6378.0e3
+M_observed_Earth = 59742.0e20
+meanDensity_observed_Earth = 5513.0
+inertia_observed_Earth = 0.331
+core_boundary_Earth = 3450.0e3           # initial core radius in [m]
+mantle_boundary_Earth = 6320.0e3        # initial distance from center to mantle-crust boundary in [m]
+core_density_Earth = 11500.0            # kg/m3
+mantle_density_Earth = 4500.0
+crust_density_Earth = 2600.0

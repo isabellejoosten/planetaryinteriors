@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.1)  20 JAN 2026 18:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.1)  22 JAN 2026 16:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -95,28 +95,36 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 \TX@cols=\count198
 \TX@ftn=\toks20
 )
+(C:\Users\Isabe\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count199
+\float@exts=\toks21
+\float@box=\box53
+\@float@everytoks=\toks22
+\@floatcapt=\box54
+)
 (C:\Users\Isabe\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count199
-\l__pdf_internal_box=\box53
+\l__color_backend_stack_int=\count266
+\l__pdf_internal_box=\box55
 ) (template_Article.aux)
 \openout1 = `template_Article.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -156,17 +164,17 @@ LaTeX Font Info:    ... okay on input line 11.
 (C:\Users\Isabe\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count266
+\scratchcounter=\count267
 \scratchdimen=\dimen158
-\scratchbox=\box54
-\nofMPsegments=\count267
-\nofMParguments=\count268
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count269
+\scratchbox=\box56
+\nofMPsegments=\count268
+\nofMParguments=\count269
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count270
 \MPscratchDim=\dimen159
-\MPnumerator=\count270
-\makeMPintoPDFobject=\count271
-\everyMPtoPDFconversion=\toks22
+\MPnumerator=\count271
+\makeMPintoPDFobject=\count272
+\everyMPtoPDFconversion=\toks24
 )
 (C:\Users\Isabe\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -179,15 +187,15 @@ fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 13.
+(Font)              <12> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 13.
+(Font)              <8> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 13.
+(Font)              <6> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 19.
+(Font)              <7> on input line 20.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 19.
+(Font)              <5> on input line 20.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -196,121 +204,83 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 ]
-Overfull \hbox (0.9067pt too wide) in paragraph at lines 76--76
+Overfull \hbox (0.9067pt too wide) in paragraph at lines 79--79
 []|\OT1/cmr/m/n/10 Schubert 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-LaTeX Warning: Citation `' on page 2 undefined on input line 111.
-
-
-LaTeX Warning: Citation `' on page 2 undefined on input line 112.
-
-
-LaTeX Warning: Citation `' on page 2 undefined on input line 113.
-
-
-LaTeX Warning: Reference `' on page 2 undefined on input line 116.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 115--117
-
- []
-
 [2]
-Underfull \hbox (badness 1354) in paragraph at lines 134--134
+Underfull \hbox (badness 1354) in paragraph at lines 137--137
 [][]\OT1/cmr/m/n/8 The thick-ness and den-sity of each layer was taken from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 134--134
+Underfull \hbox (badness 10000) in paragraph at lines 137--137
 \OT1/cmtt/m/n/8 http : / / hyperphysics . phy-[]astr . gsu . edu / hbase / Geop
 hys /
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
+[3]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 160.
+               Default added (so using `tbp') on input line 204.
 
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 186.
-
-
-Overfull \hbox (0.89316pt too wide) in paragraph at lines 200--200
+Overfull \hbox (0.89316pt too wide) in paragraph at lines 218--218
 []|\OT1/cmr/m/n/10 0.0356%|  
  []
 
 
-Overfull \hbox (0.89316pt too wide) in paragraph at lines 200--200
+Overfull \hbox (0.89316pt too wide) in paragraph at lines 218--218
 []|\OT1/cmr/m/n/10 0.0350%|  
  []
 
 
-Overfull \hbox (0.89316pt too wide) in paragraph at lines 200--200
+Overfull \hbox (0.89316pt too wide) in paragraph at lines 218--218
 []|\OT1/cmr/m/n/10 0.0256%|  
  []
 
-<jinjipressure.png, id=21, 858.95906pt x 612.78937pt>
+<jinjipressure.png, id=25, 858.95906pt x 612.78937pt>
 File: jinjipressure.png Graphic file (type png)
 <use jinjipressure.png>
-Package pdftex.def Info: jinjipressure.png  used on input line 206.
-(pdftex.def)             Requested size: 251.55872pt x 179.46223pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<model12mean3comp.png, id=23, 1110.0672pt x 615.7404pt>
-File: model12mean3comp.png Graphic file (type png)
-<use model12mean3comp.png>
-Package pdftex.def Info: model12mean3comp.png  used on input line 240.
-(pdftex.def)             Requested size: 513.11745pt x 284.61575pt.
-[3]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 1210) in paragraph at lines 246--247
-\OT1/cmr/m/n/10 When view-ing Fig-ure 2[], one dif-fer-ence be-tween the
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 246--247
-
- []
-
+Package pdftex.def Info: jinjipressure.png  used on input line 224.
+(pdftex.def)             Requested size: 201.24773pt x 143.56604pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
-(template_Article.bbl) [5 <./jinjipressure.png>] [6 <./model12mean3comp.png>]
+<model12mean3comp.png, id=31, 1110.0672pt x 615.7404pt>
+File: model12mean3comp.png Graphic file (type png)
+<use model12mean3comp.png>
+Package pdftex.def Info: model12mean3comp.png  used on input line 258.
+(pdftex.def)             Requested size: 513.11745pt x 284.61575pt.
+
+Underfull \hbox (badness 1210) in paragraph at lines 264--265
+\OT1/cmr/m/n/10 When view-ing Fig-ure 2[], one dif-fer-ence be-tween the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+
+ []
+
+(template_Article.bbl [5 <./jinjipressure.png>]) [6 <./model12mean3comp.png>]
 (template_Article.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 2141 strings out of 474486
- 35853 string characters out of 5743756
- 1955542 words of memory out of 5000000
- 24434 multiletter control sequences out of 15000+600000
+ 2215 strings out of 474486
+ 37017 string characters out of 5743756
+ 1956542 words of memory out of 5000000
+ 24504 multiletter control sequences out of 15000+600000
  563176 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,15n,65p,1197b,297s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,15n,65p,1205b,298s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Isabe\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -329,7 +299,7 @@ blic/amsfonts/cm/cmr8.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Isabe/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Isabe/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on template_Article.pdf (6 pages, 383972 bytes).
+Output written on template_Article.pdf (6 pages, 387304 bytes).
 PDF statistics:
  106 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

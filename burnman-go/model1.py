@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import functions
 import params
+import random
 
 # Setting up arrays
 M, g, p, r, rho = functions.create_arrays()
@@ -55,20 +56,71 @@ while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs
     # Increase the core size if the mass is too small, decrease the core size if the mass is too large.
     # Increase the mantle thickness if the moment of inertia is too small, decrease the mantle thickness if the moment of inertia is too large.
     if M[-1] > params.M_observed:
-        core_boundary -= params.delta_r
+        factor = random.uniform(0.7, 1.3)*abs((M[-1] - params.M_observed)/params.M_uncertainty)
+        dice = random.random()
+        if dice > 0.5:
+            core_boundary -= factor*params.delta_r
+            if core_boundary <= 0:
+                core_boundary = params.delta_r
+        else:
+            mantle_boundary -= factor*params.delta_r
+            if mantle_boundary < core_boundary:
+                mantle_boundary = core_boundary + params.delta_r
     elif M[-1] < params.M_observed:
-        core_boundary += params.delta_r
+        factor = random.uniform(0.7, 1.3)*abs((M[-1] - params.M_observed)/params.M_uncertainty)
+        dice = random.random()
+        if dice > 0.5:
+            core_boundary += factor*params.delta_r
+            if core_boundary > mantle_boundary:
+                core_boundary = mantle_boundary - params.delta_r
+        else:
+            mantle_boundary += factor*params.delta_r
+            if mantle_boundary >= params.rtotal:
+                mantle_boundary = params.rtotal - params.delta_r
     if inertia > params.inertia_observed:
-        mantle_boundary -= params.delta_r
+        factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertia_uncertainty)
+        dice = random.random()
+        if dice > 0.5:
+            mantle_boundary -= factor*params.delta_r
+            if mantle_boundary < core_boundary:
+                mantle_boundary = core_boundary + params.delta_r
+        else:
+            core_boundary -= factor*params.delta_r
+            if core_boundary <= 0:
+                core_boundary = params.delta_r
     elif inertia < params.inertia_observed:
-        mantle_boundary += params.delta_r
+        factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertia_uncertainty)
+        dice = random.random()
+        if dice > 0.5:
+            mantle_boundary += factor*params.delta_r
+            if mantle_boundary >= params.rtotal:
+                mantle_boundary = params.rtotal - params.delta_r
+        else:
+            core_boundary += factor*params.delta_r
+            if core_boundary > mantle_boundary:
+                core_boundary = mantle_boundary - params.delta_r
     if meanDensity > params.meanDensity_observed:
-        core_boundary -= params.delta_r
-        mantle_boundary -= params.delta_r
+        factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensity_uncertainty)
+        dice = random.random()
+        if dice > 0.5:
+            core_boundary -= factor*params.delta_r
+            if core_boundary <= 0:
+                core_boundary = params.delta_r
+        else:
+            mantle_boundary -= factor*params.delta_r
+            if mantle_boundary < core_boundary:
+                mantle_boundary = core_boundary + params.delta_r
     elif meanDensity < params.meanDensity_observed:
-        core_boundary += params.delta_r
-        mantle_boundary += params.delta_r
-
+        factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensity_uncertainty)
+        dice = random.random()
+        if dice > 0.5:
+            core_boundary += factor*params.delta_r
+            if core_boundary > mantle_boundary:
+                core_boundary = mantle_boundary - params.delta_r
+        else:
+            mantle_boundary += factor*params.delta_r
+            if mantle_boundary >= params.rtotal:
+                mantle_boundary = params.rtotal - params.delta_r
 
 
 # Plot pressure, mass, density, and gravity as a function of radius.   
