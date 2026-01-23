@@ -41,6 +41,8 @@ from model2 import core_mantle_boundary_pressure_max, core_mantle_boundary_gravi
 from model2 import mantle_shell_boundary_pressure_max, mantle_shell_boundary_gravity_max, mantle_shell_boundary_temp_max
 from model2 import core_boundary_max, mantle_boundary_max
 
+from model2 import meanDensity_min, meanDensity_mean, meanDensity_max
+
 
 #depths = np.linspace(2890e3, 670e3, 20)
 core_material = minerals.SE_2015.bcc_iron()
@@ -140,22 +142,19 @@ europa_mean.make()
 europa_max.make()
 
 print("----- MINIMUM CORE TEMPERATURE: -----")
-print("Europa's total mass: ", europa_min.mass, " [kg]")
-print('Deviation from observed mass: ', abs(europa_min.mass-params.M_observed)/params.M_observed*100, "%")
-print("Europa's moment of inertia factor: ", europa_min.moment_of_inertia_factor, " [-]")
-print("Deviation from observed moment of inertia factor: ", abs(europa_min.moment_of_inertia_factor-params.inertia_observed)/params.inertia_observed*100, "%")
+print(f"Total mass: {europa_min.mass:.3e} kg")
+print(f"Moment of inertia: {round(europa_min.moment_of_inertia_factor, 3)}")
+print(f"Mean density: {round(europa_min.average_density, 3)} kg/m^3")
 
 print("----- MEAN CORE TEMPERATURE: -----")
-print("Europa's total mass: ", europa_mean.mass, " [kg]")
-print('Deviation from observed mass: ', abs(europa_mean.mass-params.M_observed)/params.M_observed*100, "%")
-print("Europa's moment of inertia factor: ", europa_mean.moment_of_inertia_factor, " [-]")
-print("Deviation from observed moment of inertia factor: ", abs(europa_mean.moment_of_inertia_factor-params.inertia_observed)/params.inertia_observed*100, "%")
+print(f"Total mass: {europa_mean.mass:.3e} kg")
+print(f"Moment of inertia: {round(europa_mean.moment_of_inertia_factor, 3)}")
+print(f"Mean density: {round(europa_mean.average_density, 3)} kg/m^3")
 
 print("----- MAXIMUM CORE TEMPERATURE: -----")
-print("Europa's total mass: ", europa_max.mass, " [kg]")
-print('Deviation from observed mass: ', abs(europa_max.mass-params.M_observed)/params.M_observed*100, "%")
-print("Europa's moment of inertia factor: ", europa_max.moment_of_inertia_factor, " [-]")
-print("Deviation from observed moment of inertia factor: ", abs(europa_max.moment_of_inertia_factor-params.inertia_observed)/params.inertia_observed*100, "%")
+print(f"Total mass: {europa_max.mass:.3e} kg")
+print(f"Moment of inertia: {round(europa_max.moment_of_inertia_factor, 3)}")
+print(f"Mean density: {round(europa_max.average_density, 3)} kg/m^3")
 
 fig = plt.figure(figsize=(8, 5))
 ax = [fig.add_subplot(2, 2, i) for i in range(1, 5)]

@@ -83,22 +83,32 @@ def create_temp_array(Ttype, r):
         T = np.flip(np.arange(params.surface_temp, params.core_temp_max-1, (params.core_temp_max-params.surface_temp)/len(r)))
     return T
 
-def recalculateDensity(r, rho, p, T, core_boundary, mantle_boundary):
+def recalculateDensity(r, rho, p, T, g, core_boundary, mantle_boundary, ironCore=False):
+    if ironCore == True:
+        coreDensity = params.density_core_Fe
+        coreAlpha = params.core_alpha_Fe
+        coreK = params.core_K_Fe
+    else:
+        coreDensity = params.density_core_FeS
+        coreAlpha = params.core_alpha_FeS
+        coreK = params.core_K_FeS
     for i in range(len(r)):
         if r[i] <= core_boundary:
-            rho[i] = 5500.0*(1 - params.core_alpha*(abs(T[0] - T[i]))+(abs(p[0] - p[i]))/params.core_K)
+            rho[i] = coreDensity*(1 - coreAlpha*(abs(T[0] - T[i]))+(abs(p[0] - p[i]))/coreK)
             if r[i] <= core_boundary and r[i+1] > core_boundary:
                 core_mantle_boundary_temp = T[i]
                 core_mantle_boundary_pressure = p[i]
+                core_mantle_boundary_gravity = g[i]
         elif core_boundary < r[i] and r[i] <= mantle_boundary:
             rho[i] = 3300.0*(1-params.mantle_alpha*(abs(core_mantle_boundary_temp - T[i])) + (abs(core_mantle_boundary_pressure - p[i]))/params.mantle_K)
             if r[i] <= mantle_boundary and r[i+1] > mantle_boundary:
                 mantle_shell_boundary_temp = T[i]
                 mantle_shell_boundary_pressure = p[i]
+                mantle_shell_boundary_gravity = g[i]
         else:
             rho[i] = 1000.0*(1 - params.shell_alpha*(abs(mantle_shell_boundary_temp - T[i])) + ((mantle_shell_boundary_pressure - p[i]))/params.shell_K)
 
-    return rho
+    return rho, core_mantle_boundary_temp, core_mantle_boundary_pressure, core_mantle_boundary_gravity, mantle_shell_boundary_temp, mantle_shell_boundary_pressure, mantle_shell_boundary_gravity
 
 def iterate(M, g, p, r, rho, T):
     inertia = 0.0
@@ -182,7 +192,7 @@ def iterate(M, g, p, r, rho, T):
                 if core_boundary > mantle_boundary:
                     core_boundary = mantle_boundary - params.delta_r
         
-        rho = recalculateDensity(r, rho, p, T, core_boundary, mantle_boundary)
+        rho, core_mantle_boundary_temp, core_mantle_boundary_pressure, core_mantle_boundary_gravity, mantle_shell_boundary_temp, mantle_shell_boundary_pressure, mantle_shell_boundary_gravity = recalculateDensity(r, rho, p, T, g, core_boundary, mantle_boundary, ironCore=True)
         meanDensity = functions.meanDensity(r, rho)
         
         if meanDensity > params.meanDensity_observed:
@@ -210,7 +220,7 @@ def iterate(M, g, p, r, rho, T):
                 if mantle_boundary >= params.rtotal:
                     mantle_boundary = params.rtotal - params.delta_r
     
-    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount, meanDensity
+    return M, g, p, r, rho, T, core_boundary, mantle_boundary, inertia, simcount, meanDensity, core_mantle_boundary_temp, core_mantle_boundary_pressure, core_mantle_boundary_gravity, mantle_shell_boundary_temp, mantle_shell_boundary_pressure, mantle_shell_boundary_gravity
 
 def integrate(M, g, p, r, rho, T, core_boundary, mantle_boundary, ocean_boundary):
     for i in range(0, len(r)-1):

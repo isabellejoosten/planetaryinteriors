@@ -16,18 +16,19 @@ simcount = 0
 inertia = 0.0
 meanDensity = 0
 
+# Set initial mantle, core, and crust (ocean) densities
+for i in range(len(r)):
+        if r[i] <= core_boundary:
+            rho[i] = params.density_core_Fe
+        elif core_boundary < r[i] and r[i] <= mantle_boundary:
+            rho[i] = params.density_mantle
+        else:
+            rho[i] = params.density_shell
+
 # Start iteration
 while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs(M[-1] - params.M_observed) > params.M_uncertainty or abs(meanDensity - params.meanDensity_observed) > params.meanDensity_uncertainty: # continue iterating as long as moment of inertia or total mass deviate by more than 1% from observations
     simcount += 1
     print("Starting simulation ", simcount)
-    # Set mantle, core, and crust (ocean) densities
-    for i in range(len(r)):
-        if r[i] <= core_boundary:
-            rho[i] = 5500.0
-        elif core_boundary < r[i] and r[i] <= mantle_boundary:
-            rho[i] = 3300.0
-        else:
-            rho[i] = 1000.0
 
     # Integrating
     for i in range(0, len(r)-1):
@@ -39,18 +40,8 @@ while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs
     for i in np.flip(range(1, len(r))):
         p[i-1] = functions.Pressure(p[i], rho[i], g[i])
     
-    # Calculate moment of inertia and compare to observations
-    inertia = functions.inertia(r, rho, params.delta_r, M)
     #print('Residual moment of inertia: ', abs((inertia-params.inertia_observed)/params.inertia_observed*100), ' percent')
     #print('Residual mass: ', abs((M[-1]-params.M_observed)/params.M_observed*100), ' percent')
-
-    # finding the mean density:
-    coreVolume = functions.sphereVolume(core_boundary)
-    mantleVolume = functions.sphereShellVolume(core_boundary, mantle_boundary)
-    shellVolume = functions.sphereShellVolume(mantle_boundary, params.rtotal)
-    totalVolume = functions.sphereVolume(params.rtotal)
-
-    meanDensity = (coreVolume*5500.0 + mantleVolume*3300.0 + shellVolume*1000.0)/totalVolume
 
     # Adjust boundaries based on the difference between the observed and calculated mass and moment of inertia.
     # Increase the core size if the mass is too small, decrease the core size if the mass is too large.
@@ -77,6 +68,10 @@ while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs
             mantle_boundary += factor*params.delta_r
             if mantle_boundary >= params.rtotal:
                 mantle_boundary = params.rtotal - params.delta_r
+    
+    # Calculate moment of inertia and compare to observations
+    inertia = functions.inertia(r, rho, params.delta_r, M)
+    
     if inertia > params.inertia_observed:
         factor = random.uniform(0.7, 1.3)*abs((inertia - params.inertia_observed)/params.inertia_uncertainty)
         dice = random.random()
@@ -99,6 +94,22 @@ while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs
             core_boundary += factor*params.delta_r
             if core_boundary > mantle_boundary:
                 core_boundary = mantle_boundary - params.delta_r
+    
+    # Recalculate density
+    for i in range(len(r)):
+        if r[i] <= core_boundary:
+            rho[i] = params.density_core_Fe
+        elif core_boundary < r[i] and r[i] <= mantle_boundary:
+            rho[i] = params.density_mantle
+        else:
+            rho[i] = params.density_shell
+    coreVolume = functions.sphereVolume(core_boundary)
+    mantleVolume = functions.sphereShellVolume(core_boundary, mantle_boundary)
+    shellVolume = functions.sphereShellVolume(mantle_boundary, params.rtotal)
+    totalVolume = functions.sphereVolume(params.rtotal)
+
+    meanDensity = (coreVolume*params.density_core_Fe + mantleVolume*params.density_mantle + shellVolume*params.density_shell)/totalVolume
+    
     if meanDensity > params.meanDensity_observed:
         factor = random.uniform(0.7, 1.3)*abs((meanDensity - params.meanDensity_observed)/params.meanDensity_uncertainty)
         dice = random.random()
@@ -121,7 +132,6 @@ while abs(inertia - params.inertia_observed) > params.inertia_uncertainty or abs
             mantle_boundary += factor*params.delta_r
             if mantle_boundary >= params.rtotal:
                 mantle_boundary = params.rtotal - params.delta_r
-
 
 # Plot pressure, mass, density, and gravity as a function of radius.   
 fig, axs = plt.subplots(1, 4, sharey=True, layout='constrained')

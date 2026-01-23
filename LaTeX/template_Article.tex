@@ -106,6 +106,7 @@ Once the layer heights have been adjusted, the simulation starts over again, and
 \end{table}
 
 \section{Results, Verification and Validation of Model I}
+\label{sec:model1}
 To construct model I, the following assumptions were made:
 \begin{itemize}
 	\item Europa consists of three layers: an FeS core, a pyrolitic mantle, and an outer shell of water and ice;
@@ -211,14 +212,14 @@ The results of model II are summarised in Table \ref{tab:model2results}. To vali
 		\begin{tabular}{|>{\raggedright\arraybackslash}m{0.37\columnwidth}|>{\raggedright\arraybackslash}m{0.14\columnwidth}|>{\raggedright\arraybackslash}m{0.14\columnwidth}|>{\raggedright\arraybackslash}m{0.14\columnwidth}|}
 			\hline
 			& \textbf{Min} & \textbf{Mean} & \textbf{Max}\\ \hline
-			\textbf{Mass [10\textsuperscript{22} kg]} & 0.212 & 0.941\% & 0.956\%  \\ \hline
-			\textbf{Centre pressure [GPa]} & 5.201 & 4.921 & 4.921\\ \hline
-			\textbf{Gravity at surface [m/s\textsuperscript{2}]} & 1.315 & 1.295 & 1.295 \\ \hline
-			\textbf{Core radius [km]} & 721.5    & 666    & 677    \\ \hline
-			\textbf{Shell thickness [km]}       & 122.9    & 123    & 120    \\ \hline
-			\textbf{Moment of inertia [-]} & 0.342 & 0.0350\% & 0.0256\% \\ \hline
-			\textbf{Mean density [kg/m\textsuperscript{3}]} & 3013 & x & x\\ \hline
-			\textbf{Iterations} & 140    & 66      & 77    \\ \hline
+			\textbf{Mass [10\textsuperscript{22} kg]} & 4.789 & 4.790 & 4.797  \\ \hline
+			\textbf{Centre pressure [GPa]} & 5.140 & 4.927 & 5.209\\ \hline
+			\textbf{Gravity at surface [m/s\textsuperscript{2}]} & 1.313 & 1.314 & 1.316 \\ \hline
+			\textbf{Core radius [km]} & 708.4    & 662.2    & 752.4    \\ \hline
+			\textbf{Shell thickness [km]}       & 121.0    & 106.8    & 123.6    \\ \hline
+			\textbf{Moment of inertia [-]} & 0.344 & 0.350 & 0.341 \\ \hline
+			\textbf{Mean density [kg/m\textsuperscript{3}]} & 3013 & 3012 & 3013\\ \hline
+			\textbf{Iterations} & 297    & 388      & 5200    \\ \hline
 		\end{tabular}%
 \end{table}
 \begin{figure}[H]
@@ -241,29 +242,30 @@ The results of model II are summarised in Table \ref{tab:model2results}. To vali
 %\end{figure*}
 \section{Results and Discussion of Model III}
 \label{sec:model3}
-Model III makes use of the Burnman module available for Python and was created by modifying the file ``tutorial\_03\_layers\_and\_planets.ipynb" included in the Burnman installation. The Burnman module includes a mineral library, but it is somewhat limited. Thus, for model III, slightly different materials were chosen than for models I and II: the core is assumed to be pure iron rather than iron(II)sulfide, the mantle is assumed to consist of Olivine, and the outer shell is assumed to be entirely liquid water. For each layer, the same linear temperature variation is used as in model II, and the pressure mode is set to ``self-sufficient". The initial values for pressure and gravity are taken from the results of model II (at the mean core temperature), and so are the layer thicknesses. The results of this model, as well as a comparison to models I and II, are shown in Figure \ref{fig:123comp}. An overview of some key parameters computed by model III are shown in Table \ref{tab:model3results}.
+Model III makes use of the Burnman module available for Python and was created by modifying the file ``tutorial\_03\_layers\_and\_planets.ipynb" included in the Burnman installation. The Burnman module includes a mineral library, but it is somewhat limited. Thus, for model III, slightly different materials were chosen than for models I and II: the core is assumed to be pure iron rather than iron(II)sulfide, the mantle is assumed to consist of Olivine, and the outer shell is assumed to be entirely liquid water. For each layer, the same linear temperature variation is used as in model II, and the pressure mode is set to ``self-sufficient". The initial values for pressure and gravity are taken from the results of model II, run for a pure iron core instead of an FeS core, and so are the layer thicknesses. The results of this model, as well as a comparison to models I and II, are shown in Figure \ref{fig:123comp}. An overview of some key parameters computed by model III are shown in Table \ref{tab:model3results}.
 \begin{table}[H]
 	\caption{The results of model III for the minimum core temperature, mean core temperature, and maximum core temperature.}
 	\medskip
 	\label{tab:model3results}
 	\centering
-		\begin{tabular}{|l|l|l|l|}
+		\begin{tabular}{|>{\raggedright\arraybackslash}m{0.27\columnwidth}|>{\raggedright\arraybackslash}m{0.17\columnwidth}|>{\raggedright\arraybackslash}m{0.17\columnwidth}|>{\raggedright\arraybackslash}m{0.17\columnwidth}|}
 			\hline
 			& \textbf{Min}    & \textbf{Mean}   & \textbf{Max}    \\ \hline
-			\textbf{Mass deviation}             & 16.23\% & 16.58\% & 17.07\%  \\ \hline
-			\textbf{MOI deviation}          & 0.0286\% & 0.0934\% & 0.0282\% \\ \hline
+			\textbf{Mass [kg]}             & 5.625*10\textsuperscript{22} & 5.630*10\textsuperscript{22} & 5.619*10\textsuperscript{22}\\ \hline
+			\textbf{Moment of inertia} & 0.351 & 0.353 & 0.350\\ \hline
+			\textbf{Mean density [kg/m\textsuperscript{3}]} & 3537 & 3540 & 3534 \\ \hline
 			\textbf{Iterations}                 & 5    & 5      & 5    \\ \hline
 		\end{tabular}%
 \end{table}
 \begin{figure*}
 	\centering
-	\includegraphics[width=\textwidth]{model12mean3comp.png}
+	\includegraphics[width=\textwidth]{model123comparison_updated.png}
 	\caption{The density, pressure, gravity, and temperature profiles of Europa as calculated by the 3 different models.}
 	\label{fig:123comp}
 \end{figure*}
 
 \section{Comparison Between Models}
-When viewing Figure \ref{fig:123comp}, one difference between the models immediately stands out. While models I and II match almost perfectly, model III consistently computes higher values for density, pressure, and gravity. One way this could be explained is the difference in assumed layer compositions. In the core, the figure shows the density found in model III is over 25\% higher than that for models I and II. This makes sense when considering that the core is assumed to consist of iron (II) sulfide (FeS) in models I and II and of pure iron (Fe) in model III. By comparing the atomic weights of iron and sulfur it logically follows that pure iron would have a higher density. Since gravity and pressure are both functions of density, this difference, along with the smaller but still significant differences in mantle and shell density, can account for the differences in gravity and pressure found.\\
+When viewing Figure \ref{fig:123comp}, one difference between the models immediately stands out. While models I and II match almost perfectly, model III tends to compute higher values for density, pressure, and gravity. One way this could be explained is the difference in assumed layer compositions. The density calculated in the mantle is higher in all versions of model III than in the other versions. This could be because of the different mantle compositions defined in the models. The mean density found in model III is significantly higher than in models I and II. Although models I and II recalculate the layer heights based on the mean density at each iteration and model III does not, this should not affect the final mean density this much as the layer heights for model III had already been established in model II. Thus, the difference is likely caused by a difference in the way the mass is integrated in model III. This difference is also visible in the gravity and pressure plots.\\
 
 
 %\section{Comparison between models I, II, and III}
@@ -272,7 +274,8 @@ When viewing Figure \ref{fig:123comp}, one difference between the models immedia
 %The central pressures predicted by the different models are almost exactly the same, and so is the gravitational acceleration. The shell thicknesses predicted by the models are all within a few km of each other apart from, once again, the mean temperature model. This could again be because this model is sensitive to the initial core radius and/or initial shell thickness value.
 
 \section{Conclusion}
-In this report, four interior models from literature were analysed and compared to each other. Furthermore, two new models were constructed and compared to both each other and the models found in literature. These two models have shown to provide a decent first estimate for the interior profile of Europa, and they roughly agree with the models found in literature. However, there is a lot of uncertainty in the input values taken from literature. Future missions to Europa could provide more accurate data that can be used to construct more accurate models. The models themselves are quite simplified, and neglect many factors necessary to create a realistic model. In future research, these models could perhaps be expanded to include more than 3 layers, and thermal effects such as tidal heating or radiogenic heating.
+In this report, four interior models from literature were analysed and compared to each other. Furthermore, three new models were constructed and compared to both each other and the models found in literature. These models have shown to provide a decent first estimate for the interior profile of Europa, and they roughly agree with the models found in literature, although the third model likely suffers from incorrect or incomplete input data. However, it should also be noted that there is a decent amount of uncertainty in the input values taken from literature, as well as the observational values. Future missions to Europa could provide more accurate data that can be used to construct more accurate models. The models themselves are quite simplified, and neglect many factors necessary to create a realistic model - in particular, the difference between thermal layers dominated by convection and those dominated by conduction\footnote{Sadly, the author was not able to figure out how to implement this before the final report deadline.}. In future research, these models could perhaps be expanded to include more than 3 layers, and thermal effects such as tidal heating or radiogenic heating.\\
+Another potential issue of note is something that was briefly touched upon in Section \ref{sec:model1}: with the uncertainty ranges in the observational data used to constrain the models, there are likely multiple possible interior compositions. However, models I and by extension II output one set of parameters once the model converges. Thus, possible alternative parameter sets are neglected. A way to gain more insight into this would be to calculate the mass, moment of inertia, and mean density for a wide range of layer heights, and analyse the results to find regions within this space that match the observed values. This would, however, significantly increase the computational time.
 
 \bibliographystyle{ieeetr}
 \bibliography{ExportedItems.bib}

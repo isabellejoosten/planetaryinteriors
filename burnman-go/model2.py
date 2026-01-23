@@ -7,7 +7,7 @@ import params
 M_min, g_min, p_min, r_min, rho_min = functions.create_arrays(params.rtotal)
 for i in range(len(r_min)):
         if r_min[i] <= params.core_boundary:
-            rho_min[i] = params.density_core_FeS
+            rho_min[i] = params.density_core_Fe
         elif params.core_boundary < r_min[i] and r_min[i] <= params.mantle_boundary:
             rho_min[i] = params.density_mantle
         else:
@@ -15,7 +15,7 @@ for i in range(len(r_min)):
 M_mean, g_mean, p_mean, r_mean, rho_mean = functions.create_arrays(params.rtotal)
 for i in range(len(r_mean)):
         if r_mean[i] <= params.core_boundary:
-            rho_mean[i] = params.density_core_FeS
+            rho_mean[i] = params.density_core_Fe
         elif params.core_boundary < r_mean[i] and r_mean[i] <= params.mantle_boundary:
             rho_mean[i] = params.density_mantle
         else:
@@ -23,7 +23,7 @@ for i in range(len(r_mean)):
 M_max, g_max, p_max, r_max, rho_max = functions.create_arrays(params.rtotal)
 for i in range(len(r_max)):
         if r_max[i] <= params.core_boundary:
-            rho_max[i] = params.density_core_FeS
+            rho_max[i] = params.density_core_Fe
         elif params.core_boundary < r_max[i] and r_max[i] <= params.mantle_boundary:
             rho_max[i] = params.density_mantle
         else:
@@ -32,7 +32,7 @@ T_min = functions.create_temp_array('min', r_min)
 T_mean = functions.create_temp_array('mean', r_mean)
 T_max = functions.create_temp_array('max', r_max)
 
-M_min, g_min, p_min, r_min, rho_min, T_min, core_boundary_min, mantle_boundary_min, inertia_min, simcount_min, meanDensity_min = functions.iterate(M_min, g_min, p_min, r_min, rho_min, T_min)
+M_min, g_min, p_min, r_min, rho_min, T_min, core_boundary_min, mantle_boundary_min, inertia_min, simcount_min, meanDensity_min, core_mantle_boundary_temp_min, core_mantle_boundary_pressure_min, core_mantle_boundary_gravity_min, mantle_shell_boundary_temp_min, mantle_shell_boundary_pressure_min, mantle_shell_boundary_gravity_min = functions.iterate(M_min, g_min, p_min, r_min, rho_min, T_min)
 
 # Print final results
 print('\n---SIMULATION COMPLETE - MIN TEMP---')
@@ -60,7 +60,7 @@ print("Core radius: ", core_boundary_min/1000, " km")
 print("Mantle thickness: ", (mantle_boundary_min - core_boundary_min)/1000, " km")
 print("Crust thickness: ", (params.rtotal-mantle_boundary_min)/1000, " km")
 
-M_mean, g_mean, p_mean, r_mean, rho_mean, T_mean, core_boundary_mean, mantle_boundary_mean, inertia_mean, simcount_mean, meanDensity_mean = functions.iterate(M_mean, g_mean, p_mean, r_mean, rho_mean, T_mean)
+M_mean, g_mean, p_mean, r_mean, rho_mean, T_mean, core_boundary_mean, mantle_boundary_mean, inertia_mean, simcount_mean, meanDensity_mean, core_mantle_boundary_temp_mean, core_mantle_boundary_pressure_mean, core_mantle_boundary_gravity_mean, mantle_shell_boundary_temp_mean, mantle_shell_boundary_pressure_mean, mantle_shell_boundary_gravity_mean = functions.iterate(M_mean, g_mean, p_mean, r_mean, rho_mean, T_mean)
 
 
 # Print final results
@@ -89,7 +89,7 @@ print("Core radius: ", core_boundary_mean/1000, " km")
 print("Mantle thickness: ", (mantle_boundary_mean - core_boundary_mean)/1000, " km")
 print("Crust thickness: ", (params.rtotal-mantle_boundary_mean)/1000, " km")
 
-M_max, g_max, p_max, r_max, rho_max, T_max, core_boundary_max, mantle_boundary_max, inertia_max, simcount_max, meanDensity_max = functions.iterate(M_max, g_max, p_max, r_max, rho_max, T_max)
+M_max, g_max, p_max, r_max, rho_max, T_max, core_boundary_max, mantle_boundary_max, inertia_max, simcount_max, meanDensity_max, core_mantle_boundary_temp_max, core_mantle_boundary_pressure_max, core_mantle_boundary_gravity_max, mantle_shell_boundary_temp_max, mantle_shell_boundary_pressure_max, mantle_shell_boundary_gravity_max = functions.iterate(M_max, g_max, p_max, r_max, rho_max, T_max)
 
 # Print final results
 print('\n---SIMULATION COMPLETE - MAX TEMP---')
